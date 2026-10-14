@@ -253,7 +253,24 @@ pub fn install_linux_icon_assets(home_dir: &Path) -> io::Result<PathBuf> {
         &icon_root.join("hicolor/scalable/status/onescribe-transcribing-symbolic.svg"),
     )?;
 
+    invalidate_icon_theme_cache(&icon_root)?;
+
     Ok(icon_root)
+}
+
+/// Drops the `hicolor` icon-theme cache so GTK/St re-index the directory.
+///
+/// GTK trusts `icon-theme.cache` when it is present and will not notice icons
+/// that were added or renamed since it was generated, which shows up as a
+/// generic fallback glyph in the tray. Removing it (GTK rebuilds an in-memory
+/// index on demand) keeps freshly installed icons visible without depending on
+/// `gtk-update-icon-cache` being available.
+fn invalidate_icon_theme_cache(icon_root: &Path) -> io::Result<()> {
+    match fs::remove_file(icon_root.join("hicolor/icon-theme.cache")) {
+        Ok(()) => Ok(()),
+        Err(error) if error.kind() == io::ErrorKind::NotFound => Ok(()),
+        Err(error) => Err(error),
+    }
 }
 
 pub fn guess_mime_type(path: &Path) -> &'static str {
@@ -505,6 +522,22 @@ mod tests {
                 .exists()
         );
 
+        let _ = fs::remove_dir_all(&temp_home);
+    }
+
+    #[test]
+    fn install_linux_icon_assets_invalidates_stale_icon_theme_cache() {
+        let temp_home = unique_temp_dir();
+        let cache = temp_home.join(".local/share/icons/hicolor/icon-theme.cache");
+        fs::create_dir_all(cache.parent().unwrap()).unwrap();
+        fs::write(&cache, b"stale index").unwrap();
+
+        install_linux_icon_assets(&temp_home).unwrap();
+
+        assert!(
+            !cache.exists(),
+            "a stale icon-theme cache must be dropped so GTK re-indexes"
+        );
         let _ = fs::remove_dir_all(&temp_home);
     }
 
