@@ -120,7 +120,7 @@ Release gate example:
 2. Run **Option B** as an A/B experiment behind a feature flag.
 3. Keep one-click fallback to raw transcript if command confidence is low.
 
-## Notes for Current VoiceToText Codebase
+## Notes for Current OneScribe Codebase
 
 1. Your current `GroqTranscriber` path is STT-only and fast.
 2. If you stay on Groq STT, add:

@@ -25,9 +25,9 @@
     <key>NSMainStoryboardFile</key>
     <string></string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>VoiceToText needs access to the microphone to record audio for transcription.</string>
+    <string>OneScribe needs access to the microphone to record audio for transcription.</string>
     <key>NSAccessibilityUsageDescription</key>
-    <string>VoiceToText needs accessibility access to paste transcribed text at the cursor position and respond to global hotkeys.</string>
+    <string>OneScribe needs accessibility access to paste transcribed text at the cursor position and respond to global hotkeys.</string>
     <key>LSUIElement</key>
     <true/>
     <key>NSSupportsAutomaticTermination</key>

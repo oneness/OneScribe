@@ -28,17 +28,17 @@ pub enum CompletionSoundMethod {
 }
 const COMPLETION_SOUND_RELATIVE_PATH: &str = "assets/completion.oga";
 const PANEL_ICON_IDLE_RELATIVE_PATH: &str =
-    "assets/icons/hicolor/scalable/status/voicetotext-symbolic.svg";
+    "assets/icons/hicolor/scalable/status/onescribe-symbolic.svg";
 const PANEL_ICON_RECORDING_RELATIVE_PATH: &str =
-    "assets/icons/hicolor/scalable/status/voicetotext-recording-symbolic.svg";
+    "assets/icons/hicolor/scalable/status/onescribe-recording-symbolic.svg";
 const PANEL_ICON_TRANSCRIBING_RELATIVE_PATH: &str =
-    "assets/icons/hicolor/scalable/status/voicetotext-transcribing-symbolic.svg";
+    "assets/icons/hicolor/scalable/status/onescribe-transcribing-symbolic.svg";
 const APP_ICON_128_RELATIVE_PATH: &str =
-    "../VoiceToText/Resources/Assets.xcassets/AppIcon.appiconset/icon_128x128.png";
+    "../OneScribe/Resources/Assets.xcassets/AppIcon.appiconset/icon_128x128.png";
 const APP_ICON_256_RELATIVE_PATH: &str =
-    "../VoiceToText/Resources/Assets.xcassets/AppIcon.appiconset/icon_256x256.png";
+    "../OneScribe/Resources/Assets.xcassets/AppIcon.appiconset/icon_256x256.png";
 const APP_ICON_512_RELATIVE_PATH: &str =
-    "../VoiceToText/Resources/Assets.xcassets/AppIcon.appiconset/icon_512x512.png";
+    "../OneScribe/Resources/Assets.xcassets/AppIcon.appiconset/icon_512x512.png";
 
 #[derive(Debug)]
 pub enum ClipboardCopyError {
@@ -131,7 +131,7 @@ pub fn resolve_journal_dir(
         .map(|value| expand_home(&value, home_dir))
         .unwrap_or_else(|| home_dir.join("Documents"));
 
-    documents_dir.join("VoiceToText")
+    documents_dir.join("OneScribe")
 }
 
 pub fn load_config_json(path: &Path) -> io::Result<Option<String>> {
@@ -230,27 +230,27 @@ pub fn install_linux_icon_assets(home_dir: &Path) -> io::Result<PathBuf> {
 
     install_icon_asset(
         &bundled_asset_path(APP_ICON_128_RELATIVE_PATH),
-        &icon_root.join("hicolor/128x128/apps/voicetotext.png"),
+        &icon_root.join("hicolor/128x128/apps/onescribe.png"),
     )?;
     install_icon_asset(
         &bundled_asset_path(APP_ICON_256_RELATIVE_PATH),
-        &icon_root.join("hicolor/256x256/apps/voicetotext.png"),
+        &icon_root.join("hicolor/256x256/apps/onescribe.png"),
     )?;
     install_icon_asset(
         &bundled_asset_path(APP_ICON_512_RELATIVE_PATH),
-        &icon_root.join("hicolor/512x512/apps/voicetotext.png"),
+        &icon_root.join("hicolor/512x512/apps/onescribe.png"),
     )?;
     install_icon_asset(
         &bundled_asset_path(PANEL_ICON_IDLE_RELATIVE_PATH),
-        &icon_root.join("hicolor/scalable/status/voicetotext-symbolic.svg"),
+        &icon_root.join("hicolor/scalable/status/onescribe-symbolic.svg"),
     )?;
     install_icon_asset(
         &bundled_asset_path(PANEL_ICON_RECORDING_RELATIVE_PATH),
-        &icon_root.join("hicolor/scalable/status/voicetotext-recording-symbolic.svg"),
+        &icon_root.join("hicolor/scalable/status/onescribe-recording-symbolic.svg"),
     )?;
     install_icon_asset(
         &bundled_asset_path(PANEL_ICON_TRANSCRIBING_RELATIVE_PATH),
-        &icon_root.join("hicolor/scalable/status/voicetotext-transcribing-symbolic.svg"),
+        &icon_root.join("hicolor/scalable/status/onescribe-transcribing-symbolic.svg"),
     )?;
 
     Ok(icon_root)
@@ -407,7 +407,7 @@ mod tests {
 
         assert_eq!(
             path,
-            PathBuf::from("/home/tester/Files/Documents/VoiceToText")
+            PathBuf::from("/home/tester/Files/Documents/OneScribe")
         );
     }
 
@@ -416,7 +416,7 @@ mod tests {
         let environment: [(&str, &str); 0] = [];
         let path = resolve_journal_dir(&environment, Path::new("/home/tester"));
 
-        assert_eq!(path, PathBuf::from("/home/tester/Documents/VoiceToText"));
+        assert_eq!(path, PathBuf::from("/home/tester/Documents/OneScribe"));
     }
 
     #[test]
@@ -496,12 +496,12 @@ mod tests {
         assert_eq!(icon_root, temp_home.join(".local/share/icons"));
         assert!(
             icon_root
-                .join("hicolor/scalable/status/voicetotext-symbolic.svg")
+                .join("hicolor/scalable/status/onescribe-symbolic.svg")
                 .exists()
         );
         assert!(
             icon_root
-                .join("hicolor/512x512/apps/voicetotext.png")
+                .join("hicolor/512x512/apps/onescribe.png")
                 .exists()
         );
 
@@ -513,7 +513,7 @@ mod tests {
             .duration_since(UNIX_EPOCH)
             .unwrap()
             .as_nanos();
-        let path = env::temp_dir().join(format!("voicetotext-linux-test-{suffix}"));
+        let path = env::temp_dir().join(format!("onescribe-linux-test-{suffix}"));
         fs::create_dir_all(&path).unwrap();
         path
     }

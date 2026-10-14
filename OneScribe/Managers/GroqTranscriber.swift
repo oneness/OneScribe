@@ -84,7 +84,7 @@ extension GroqTranscriber {
         fileManager: FileManager = .default
     ) -> URL? {
         // Optional override for development and testing.
-        let overridePath = trimmed(environment["VOICETOTEXT_CONFIG_PATH"])
+        let overridePath = trimmed(environment["ONESCRIBE_CONFIG_PATH"])
         if !overridePath.isEmpty {
             let expanded = (overridePath as NSString).expandingTildeInPath
             return URL(fileURLWithPath: expanded)
@@ -95,7 +95,7 @@ extension GroqTranscriber {
         }
 
         return appSupportDir
-            .appendingPathComponent("VoiceToText", isDirectory: true)
+            .appendingPathComponent("OneScribe", isDirectory: true)
             .appendingPathComponent("config.json", isDirectory: false)
     }
 
@@ -149,7 +149,7 @@ class LegacyGroqTranscriber {
     init() {
         let apiKey = GroqTranscriber.resolvedAPIKey()
         guard !apiKey.isEmpty else {
-            fatalError("API key not configured. Set GROQ_API_KEY or create ~/Library/Application Support/VoiceToText/config.json with {\"groq_api_key\": \"...\"}.")
+            fatalError("API key not configured. Set GROQ_API_KEY or create ~/Library/Application Support/OneScribe/config.json with {\"groq_api_key\": \"...\"}.")
         }
         self.transcriber = GroqTranscriber(apiKey: apiKey)
     }

@@ -1,8 +1,8 @@
-# VoiceToText Design
+# OneScribe Design
 
 ## Overview
 
-VoiceToText is a macOS menu bar app for fast dictation:
+OneScribe is a macOS menu bar app for fast dictation:
 1. Record from the microphone.
 2. Transcribe with Groq Whisper.
 3. Auto-paste the transcript into the active app.
@@ -14,7 +14,7 @@ VoiceToText is a macOS menu bar app for fast dictation:
 2. User presses `Option + Space` again to stop.
 3. App uploads audio to Groq (`whisper-large-v3-turbo`).
 4. App copies transcript to clipboard and simulates `Cmd+V`.
-5. App appends transcript to `~/Documents/VoiceToText/YYYY-MM-DD.md`.
+5. App appends transcript to `~/Documents/OneScribe/YYYY-MM-DD.md`.
 
 ## Hotkey
 
@@ -34,23 +34,23 @@ Status icon is updated by `StatusItemController` based on `RecordingManager.stat
 
 ## Key Components
 
-- `VoiceToText/App/AppDelegate.swift`
-- `VoiceToText/Managers/RecordingManager.swift`
-- `VoiceToText/Managers/GroqTranscriber.swift`
-- `VoiceToText/Managers/AutoPaster.swift`
-- `VoiceToText/Managers/TranscriptionJournal.swift`
-- `VoiceToText/Hotkeys/HotkeyManager.swift`
-- `VoiceToText/UI/StatusItemController.swift`
+- `OneScribe/App/AppDelegate.swift`
+- `OneScribe/Managers/RecordingManager.swift`
+- `OneScribe/Managers/GroqTranscriber.swift`
+- `OneScribe/Managers/AutoPaster.swift`
+- `OneScribe/Managers/TranscriptionJournal.swift`
+- `OneScribe/Hotkeys/HotkeyManager.swift`
+- `OneScribe/UI/StatusItemController.swift`
 
 ## Data and Config
 
 - API key resolution order:
 1. `GROQ_API_KEY` env var
-2. `~/Library/Application Support/VoiceToText/config.json`
-3. `VOICETOTEXT_CONFIG_PATH` override (optional)
+2. `~/Library/Application Support/OneScribe/config.json`
+3. `ONESCRIBE_CONFIG_PATH` override (optional)
 
 - Journal location:
-1. `~/Documents/VoiceToText/`
+1. `~/Documents/OneScribe/`
 2. One Markdown file per day
 
 ## Required Permissions

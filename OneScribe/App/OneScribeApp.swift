@@ -6,19 +6,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var cancellables = Set<AnyCancellable>()
     private let setupChecker = SetupChecker()
     private var statusItemController: StatusItemController?
-    private let logger = OSLog(subsystem: "com.voicetext.app", category: "AppDelegate")
+    private let logger = OSLog(subsystem: "com.onescribe.app", category: "AppDelegate")
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        print("VoiceToText app starting...")
-        NSLog("VoiceToText app starting...")
+        print("OneScribe app starting...")
+        NSLog("OneScribe app starting...")
 
         // Skip welcome screen for now - always initialize
         print("Initializing app...")
         NSLog("Initializing app...")
         initializeApp()
 
-        print("VoiceToText app started successfully")
-        NSLog("VoiceToText app started successfully")
+        print("OneScribe app started successfully")
+        NSLog("OneScribe app started successfully")
     }
 
     private func showWelcomeScreen() {
@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             defer: false
         )
         window.center()
-        window.title = "Welcome to VoiceToText"
+        window.title = "Welcome to OneScribe"
         window.contentViewController = welcomeVC
         window.makeKeyAndOrderFront(nil)
 

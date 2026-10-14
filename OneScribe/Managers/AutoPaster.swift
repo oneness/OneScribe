@@ -7,7 +7,7 @@ import os.log
 
 class AutoPaster {
     static let shared = AutoPaster()
-    private let logger = OSLog(subsystem: "com.voicetext.app", category: "AutoPaster")
+    private let logger = OSLog(subsystem: "com.onescribe.app", category: "AutoPaster")
 
     private init() {}
 

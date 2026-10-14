@@ -46,17 +46,17 @@ class WelcomeViewController: NSViewController {
             ),
             SetupStep(
                 title: "Set Groq API Key",
-                description: "Set GROQ_API_KEY in your shell environment OR create ~/Library/Application Support/VoiceToText/config.json with {\"groq_api_key\":\"<YOUR_KEY>\"}. Get your free API key from https://console.groq.com/keys",
+                description: "Set GROQ_API_KEY in your shell environment OR create ~/Library/Application Support/OneScribe/config.json with {\"groq_api_key\":\"<YOUR_KEY>\"}. Get your free API key from https://console.groq.com/keys",
                 icon: "key.fill"
             ),
             SetupStep(
                 title: "Grant Accessibility Permissions",
-                description: "Go to System Settings → Privacy & Security → Accessibility and enable VoiceToText. This allows the app to use global hotkeys.",
+                description: "Go to System Settings → Privacy & Security → Accessibility and enable OneScribe. This allows the app to use global hotkeys.",
                 icon: "hand.raised.fill"
             ),
             SetupStep(
                 title: "Grant Microphone Permissions",
-                description: "When prompted, allow VoiceToText to access your microphone. You can also enable this in System Settings → Privacy & Security → Microphone.",
+                description: "When prompted, allow OneScribe to access your microphone. You can also enable this in System Settings → Privacy & Security → Microphone.",
                 icon: "mic.fill"
             )
         ]
@@ -78,7 +78,7 @@ struct WelcomeView: View {
                     .font(.system(size: 64))
                     .foregroundColor(.blue)
 
-                Text("Welcome to VoiceToText")
+                Text("Welcome to OneScribe")
                     .font(.system(size: 28, weight: .bold))
 
                 Text("Complete these setup steps to get started")
@@ -101,7 +101,7 @@ struct WelcomeView: View {
                 SetupStepView(
                     number: 2,
                     title: "Set Groq API Key",
-                    description: "Set GROQ_API_KEY in your shell environment OR create ~/Library/Application Support/VoiceToText/config.json with {\"groq_api_key\":\"<YOUR_KEY>\"}. Get your free API key from https://console.groq.com/keys",
+                    description: "Set GROQ_API_KEY in your shell environment OR create ~/Library/Application Support/OneScribe/config.json with {\"groq_api_key\":\"<YOUR_KEY>\"}. Get your free API key from https://console.groq.com/keys",
                     icon: "key.fill"
                 )
 
@@ -110,7 +110,7 @@ struct WelcomeView: View {
                 SetupStepView(
                     number: 3,
                     title: "Grant Accessibility Permissions",
-                    description: "Go to System Settings → Privacy & Security → Accessibility and enable VoiceToText. This allows the app to use global hotkeys.",
+                    description: "Go to System Settings → Privacy & Security → Accessibility and enable OneScribe. This allows the app to use global hotkeys.",
                     icon: "hand.raised.fill"
                 )
 
@@ -119,7 +119,7 @@ struct WelcomeView: View {
                 SetupStepView(
                     number: 4,
                     title: "Grant Microphone Permissions",
-                    description: "When prompted, allow VoiceToText to access your microphone. You can also enable this in System Settings → Privacy & Security → Microphone.",
+                    description: "When prompted, allow OneScribe to access your microphone. You can also enable this in System Settings → Privacy & Security → Microphone.",
                     icon: "mic.fill"
                 )
             }

@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import VoiceToText
+@testable import OneScribe
 
 @Test("AppState display names remain stable")
 func appStateDisplayNames() {

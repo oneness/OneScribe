@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A1000020000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0000220000000000000001 /* Assets.xcassets */; };
-		A1000001000000000000001 /* VoiceToTextApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000001000000000000001 /* VoiceToTextApp.swift */; };
+		A1000001000000000000001 /* OneScribeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000001000000000000001 /* OneScribeApp.swift */; };
 		A1000002000000000000001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000002000000000000001 /* AppDelegate.swift */; };
 		A1000003000000000000001 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000003000000000000001 /* AppState.swift */; };
 		A1000004000000000000001 /* Transcription.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000004000000000000001 /* Transcription.swift */; };
@@ -17,7 +17,7 @@
 		A1000008000000000000001 /* HotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000008000000000000001 /* HotkeyManager.swift */; };
 		A1000009000000000000001 /* StatusItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000009000000000000001 /* StatusItemController.swift */; };
 		A1000011000000000000001 /* TranscriptionHistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000011000000000000001 /* TranscriptionHistoryManager.swift */; };
-		A1000010000000000000002 /* VoiceToTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000010000000000000001 /* VoiceToTextTests.swift */; };
+		A1000010000000000000002 /* OneScribeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000010000000000000001 /* OneScribeTests.swift */; };
 		A1000012000000000000001 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000012000000000000001 /* HTTPClient.swift */; };
 		A1000013000000000000001 /* TranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000013000000000000001 /* TranscriptionService.swift */; };
 		A1000014000000000000001 /* TranscriptionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000014000000000000001 /* TranscriptionError.swift */; };
@@ -30,7 +30,7 @@
 
 /* Begin PBXFileReference section */
 		A0000220000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A0000001000000000000001 /* VoiceToTextApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceToTextApp.swift; sourceTree = "<group>"; };
+		A0000001000000000000001 /* OneScribeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneScribeApp.swift; sourceTree = "<group>"; };
 		A0000002000000000000001 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A0000003000000000000001 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		A0000004000000000000001 /* Transcription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transcription.swift; sourceTree = "<group>"; };
@@ -38,7 +38,7 @@
 		A0000006000000000000001 /* GroqTranscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroqTranscriber.swift; sourceTree = "<group>"; };
 		A0000008000000000000001 /* HotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyManager.swift; sourceTree = "<group>"; };
 		A0000009000000000000001 /* StatusItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemController.swift; sourceTree = "<group>"; };
-		A0000010000000000000001 /* VoiceToTextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceToTextTests.swift; sourceTree = "<group>"; };
+		A0000010000000000000001 /* OneScribeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneScribeTests.swift; sourceTree = "<group>"; };
 		A0000011000000000000001 /* TranscriptionHistoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionHistoryManager.swift; sourceTree = "<group>"; };
 		A0000012000000000000001 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		A0000013000000000000001 /* TranscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionService.swift; sourceTree = "<group>"; };
@@ -49,8 +49,8 @@
 		A0000018000000000000001 /* AutoPaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoPaster.swift; sourceTree = "<group>"; };
 		A0000019000000000000001 /* TranscriptionJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionJournal.swift; sourceTree = "<group>"; };
 		A0000020000000000000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A0000030000000000000001 /* VoiceToText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceToText.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A0000040000000000000001 /* VoiceToTextTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoiceToTextTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0000030000000000000001 /* OneScribe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneScribe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0000040000000000000001 /* OneScribeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneScribeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,13 +74,13 @@
 		A0000070000000000000001 = {
 			isa = PBXGroup;
 			children = (
-				A0000080000000000000001 /* VoiceToText */,
-				A0000090000000000000001 /* VoiceToTextTests */,
+				A0000080000000000000001 /* OneScribe */,
+				A0000090000000000000001 /* OneScribeTests */,
 				A00000A0000000000000001 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		A0000080000000000000001 /* VoiceToText */ = {
+		A0000080000000000000001 /* OneScribe */ = {
 			isa = PBXGroup;
 			children = (
 				A00000B0000000000000001 /* App */,
@@ -90,22 +90,22 @@
 				A00000F0000000000000001 /* UI */,
 				A0000100000000000000001 /* Resources */,
 			);
-			path = VoiceToText;
+			path = OneScribe;
 			sourceTree = "<group>";
 		};
-		A0000090000000000000001 /* VoiceToTextTests */ = {
+		A0000090000000000000001 /* OneScribeTests */ = {
 			isa = PBXGroup;
 			children = (
-				A0000010000000000000001 /* VoiceToTextTests.swift */,
+				A0000010000000000000001 /* OneScribeTests.swift */,
 			);
-			path = VoiceToTextTests;
+			path = OneScribeTests;
 			sourceTree = "<group>";
 		};
 		A00000A0000000000000001 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A0000030000000000000001 /* VoiceToText.app */,
-				A0000040000000000000001 /* VoiceToTextTests.xctest */,
+				A0000030000000000000001 /* OneScribe.app */,
+				A0000040000000000000001 /* OneScribeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,7 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				A0000017000000000000001 /* main.swift */,
-				A0000001000000000000001 /* VoiceToTextApp.swift */,
+				A0000001000000000000001 /* OneScribeApp.swift */,
 				A0000002000000000000001 /* AppDelegate.swift */,
 			);
 			path = App;
@@ -174,9 +174,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A0000110000000000000001 /* VoiceToText */ = {
+		A0000110000000000000001 /* OneScribe */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A0000120000000000000001 /* Build configuration list for PBXNativeTarget "VoiceToText" */;
+			buildConfigurationList = A0000120000000000000001 /* Build configuration list for PBXNativeTarget "OneScribe" */;
 			buildPhases = (
 				A0000130000000000000001 /* Sources */,
 				A0000050000000000000001 /* Frameworks */,
@@ -186,14 +186,14 @@
 			);
 			dependencies = (
 			);
-			name = VoiceToText;
-			productName = VoiceToText;
-			productReference = A0000030000000000000001 /* VoiceToText.app */;
+			name = OneScribe;
+			productName = OneScribe;
+			productReference = A0000030000000000000001 /* OneScribe.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A0000150000000000000001 /* VoiceToTextTests */ = {
+		A0000150000000000000001 /* OneScribeTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A0000160000000000000001 /* Build configuration list for PBXNativeTarget "VoiceToTextTests" */;
+			buildConfigurationList = A0000160000000000000001 /* Build configuration list for PBXNativeTarget "OneScribeTests" */;
 			buildPhases = (
 				A0000170000000000000001 /* Sources */,
 				A0000060000000000000001 /* Frameworks */,
@@ -203,9 +203,9 @@
 			dependencies = (
 				A0000180000000000000001 /* PBXTargetDependency */,
 			);
-			name = VoiceToTextTests;
-			productName = VoiceToTextTests;
-			productReference = A0000040000000000000001 /* VoiceToTextTests.xctest */;
+			name = OneScribeTests;
+			productName = OneScribeTests;
+			productReference = A0000040000000000000001 /* OneScribeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -227,7 +227,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A00001A0000000000000001 /* Build configuration list for PBXProject "VoiceToText" */;
+			buildConfigurationList = A00001A0000000000000001 /* Build configuration list for PBXProject "OneScribe" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -240,8 +240,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A0000110000000000000001 /* VoiceToText */,
-				A0000150000000000000001 /* VoiceToTextTests */,
+				A0000110000000000000001 /* OneScribe */,
+				A0000150000000000000001 /* OneScribeTests */,
 			);
 		};
 /* End PBXProject section */
@@ -263,7 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1000017000000000000001 /* main.swift in Sources */,
-				A1000001000000000000001 /* VoiceToTextApp.swift in Sources */,
+				A1000001000000000000001 /* OneScribeApp.swift in Sources */,
 				A1000002000000000000001 /* AppDelegate.swift in Sources */,
 				A1000003000000000000001 /* AppState.swift in Sources */,
 				A1000004000000000000001 /* Transcription.swift in Sources */,
@@ -286,7 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1000010000000000000002 /* VoiceToTextTests.swift in Sources */,
+				A1000010000000000000002 /* OneScribeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +295,7 @@
 /* Begin PBXTargetDependency section */
 		A0000180000000000000001 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A0000110000000000000001 /* VoiceToText */;
+			target = A0000110000000000000001 /* OneScribe */;
 			targetProxy = A00001B0000000000000001 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -306,7 +306,7 @@
 			containerPortal = A0000190000000000000001 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = A0000110000000000000001;
-			remoteInfo = VoiceToText;
+			remoteInfo = OneScribe;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -434,7 +434,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = VoiceToText/VoiceToText.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OneScribe/OneScribe.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -443,14 +443,14 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = NO;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = VoiceToText/Resources/Info.plist;
+				INFOPLIST_FILE = OneScribe/Resources/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.vrcdt.VoiceToText;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vrcdt.OneScribe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -462,7 +462,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = VoiceToText/VoiceToText.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OneScribe/OneScribe.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -471,14 +471,14 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = NO;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = VoiceToText/Resources/Info.plist;
+				INFOPLIST_FILE = OneScribe/Resources/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.vrcdt.VoiceToText;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vrcdt.OneScribe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -488,18 +488,18 @@
 			A0000200000000000000001 /* Debug */ = {
 				isa = XCBuildConfiguration;
 				buildSettings = {
-					BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/VoiceToText.app/Contents/MacOS/VoiceToText.debug.dylib";
-					CODE_SIGN_ENTITLEMENTS = VoiceToTextTests/VoiceToTextTests.entitlements;
+					BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OneScribe.app/Contents/MacOS/OneScribe.debug.dylib";
+					CODE_SIGN_ENTITLEMENTS = OneScribeTests/OneScribeTests.entitlements;
 					CODE_SIGN_STYLE = Automatic;
 					CURRENT_PROJECT_VERSION = 1;
 					DEVELOPMENT_TEAM = "";
 					GENERATE_INFOPLIST_FILE = YES;
 					LD_RUNPATH_SEARCH_PATHS = (
 						"$(inherited)",
-						"@loader_path/../../../VoiceToText.app/Contents/MacOS",
+						"@loader_path/../../../OneScribe.app/Contents/MacOS",
 					);
 					MARKETING_VERSION = 1.0;
-					PRODUCT_BUNDLE_IDENTIFIER = com.vrcdt.VoiceToTextTests;
+					PRODUCT_BUNDLE_IDENTIFIER = com.vrcdt.OneScribeTests;
 					PRODUCT_NAME = "$(TARGET_NAME)";
 					SWIFT_EMIT_LOC_STRINGS = NO;
 					SWIFT_VERSION = 5.0;
@@ -509,18 +509,18 @@
 			A0000210000000000000001 /* Release */ = {
 				isa = XCBuildConfiguration;
 				buildSettings = {
-					BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/VoiceToText.app/Contents/MacOS/VoiceToText.debug.dylib";
-					CODE_SIGN_ENTITLEMENTS = VoiceToTextTests/VoiceToTextTests.entitlements;
+					BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OneScribe.app/Contents/MacOS/OneScribe.debug.dylib";
+					CODE_SIGN_ENTITLEMENTS = OneScribeTests/OneScribeTests.entitlements;
 					CODE_SIGN_STYLE = Automatic;
 					CURRENT_PROJECT_VERSION = 1;
 					DEVELOPMENT_TEAM = "";
 					GENERATE_INFOPLIST_FILE = YES;
 					LD_RUNPATH_SEARCH_PATHS = (
 						"$(inherited)",
-						"@loader_path/../../../VoiceToText.app/Contents/MacOS",
+						"@loader_path/../../../OneScribe.app/Contents/MacOS",
 					);
 					MARKETING_VERSION = 1.0;
-					PRODUCT_BUNDLE_IDENTIFIER = com.vrcdt.VoiceToTextTests;
+					PRODUCT_BUNDLE_IDENTIFIER = com.vrcdt.OneScribeTests;
 					PRODUCT_NAME = "$(TARGET_NAME)";
 					SWIFT_EMIT_LOC_STRINGS = NO;
 					SWIFT_VERSION = 5.0;
@@ -530,7 +530,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A0000120000000000000001 /* Build configuration list for PBXNativeTarget "VoiceToText" */ = {
+		A0000120000000000000001 /* Build configuration list for PBXNativeTarget "OneScribe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A00001E0000000000000001 /* Debug */,
@@ -539,7 +539,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A0000160000000000000001 /* Build configuration list for PBXNativeTarget "VoiceToTextTests" */ = {
+		A0000160000000000000001 /* Build configuration list for PBXNativeTarget "OneScribeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A0000200000000000000001 /* Debug */,
@@ -548,7 +548,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A00001A0000000000000001 /* Build configuration list for PBXProject "VoiceToText" */ = {
+		A00001A0000000000000001 /* Build configuration list for PBXProject "OneScribe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A00001C0000000000000001 /* Debug */,

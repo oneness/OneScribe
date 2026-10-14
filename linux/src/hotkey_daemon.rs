@@ -29,17 +29,17 @@ use crate::{
 pub const TOGGLE_SHORTCUT_ID: &str = "toggle-recording";
 pub const TOGGLE_SHORTCUT_DESCRIPTION: &str = "Start or stop voice recording";
 pub const TOGGLE_SHORTCUT_TRIGGER: &str = "Alt+space";
-pub const HOST_APP_ID: &str = "com.voicetotext.VoiceToText";
+pub const HOST_APP_ID: &str = "com.onescribe.OneScribe";
 
 const GNOME_MEDIA_KEYS_SCHEMA: &str = "org.gnome.settings-daemon.plugins.media-keys";
 const GNOME_SHORTCUT_BINDING_PATH: &str =
-    "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/voicetotext/";
+    "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/onescribe/";
 const GNOME_SHORTCUT_KEYBINDING: &str = "<Alt>space";
-const GNOME_SHORTCUT_NAME: &str = "VoiceToText Toggle";
+const GNOME_SHORTCUT_NAME: &str = "OneScribe Toggle";
 
 fn control_fifo_path() -> PathBuf {
     let uid = unsafe { libc::getuid() };
-    PathBuf::from(format!("/run/user/{uid}/voicetotext-control"))
+    PathBuf::from(format!("/run/user/{uid}/onescribe-control"))
 }
 
 // Registers Alt+Space as a GNOME custom keyboard shortcut that writes "toggle"
@@ -458,7 +458,7 @@ pub(crate) fn ensure_host_desktop_entry(home_dir: &Path) -> std::io::Result<Path
     let current_exe = env::current_exe()?;
     let exec = format!("{} daemon", current_exe.display());
     let desired = format!(
-        "[Desktop Entry]\nType=Application\nVersion=1.0\nName=VoiceToText Linux\nComment=Voice transcription hotkey daemon\nExec={exec}\nIcon=voicetotext\nTerminal=false\nNoDisplay=true\nCategories=Utility;\nStartupNotify=false\n"
+        "[Desktop Entry]\nType=Application\nVersion=1.0\nName=OneScribe Linux\nComment=Voice transcription hotkey daemon\nExec={exec}\nIcon=onescribe\nTerminal=false\nNoDisplay=true\nCategories=Utility;\nStartupNotify=false\n"
     );
 
     let should_write = match fs::read_to_string(&desktop_path) {

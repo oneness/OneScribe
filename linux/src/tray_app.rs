@@ -18,7 +18,7 @@ pub async fn run_tray_daemon(
     let (event_sender, mut event_receiver) = mpsc::unbounded_channel();
     let (command_sender, command_receiver) = mpsc::unbounded_channel();
 
-    let tray_handle = match VoiceToTextTray::new(
+    let tray_handle = match OneScribeTray::new(
         icon_theme_path.to_string_lossy().into_owned(),
         command_sender,
     )
@@ -78,7 +78,7 @@ pub async fn run_tray_daemon(
     Ok(())
 }
 
-struct VoiceToTextTray {
+struct OneScribeTray {
     app_state: AppState,
     icon_theme_path: String,
     last_transcript_preview: Option<String>,
@@ -86,7 +86,7 @@ struct VoiceToTextTray {
     command_sender: mpsc::UnboundedSender<DaemonCommand>,
 }
 
-impl VoiceToTextTray {
+impl OneScribeTray {
     fn new(icon_theme_path: String, command_sender: mpsc::UnboundedSender<DaemonCommand>) -> Self {
         Self {
             app_state: AppState::Idle,
@@ -126,9 +126,9 @@ impl VoiceToTextTray {
 
     fn status_icon_name(&self) -> &'static str {
         match self.app_state {
-            AppState::Idle => "voicetotext-symbolic",
-            AppState::Recording => "voicetotext-recording-symbolic",
-            AppState::Transcribing => "voicetotext-transcribing-symbolic",
+            AppState::Idle => "onescribe-symbolic",
+            AppState::Recording => "onescribe-recording-symbolic",
+            AppState::Transcribing => "onescribe-transcribing-symbolic",
         }
     }
 
@@ -147,13 +147,13 @@ impl VoiceToTextTray {
     }
 }
 
-impl Tray for VoiceToTextTray {
+impl Tray for OneScribeTray {
     fn id(&self) -> String {
         HOST_APP_ID.to_string()
     }
 
     fn title(&self) -> String {
-        format!("VoiceToText ({})", self.state_label())
+        format!("OneScribe ({})", self.state_label())
     }
 
     fn status(&self) -> Status {
@@ -173,7 +173,7 @@ impl Tray for VoiceToTextTray {
 
     fn tool_tip(&self) -> ToolTip {
         ToolTip {
-            title: "VoiceToText".to_string(),
+            title: "OneScribe".to_string(),
             description: self.tooltip_description(),
             ..Default::default()
         }
@@ -269,20 +269,20 @@ mod tests {
     #[test]
     fn preview_line_compacts_whitespace_and_truncates() {
         let preview =
-            preview_line("hello   world\nfrom    VoiceToText and a much longer transcript");
+            preview_line("hello   world\nfrom    OneScribe and a much longer transcript");
         assert_eq!(
             preview,
-            "hello world from VoiceToText and a much longer transcript"
+            "hello world from OneScribe and a much longer transcript"
         );
     }
 
     #[test]
     fn tray_uses_recording_icon_for_recording_state() {
         let (command_sender, _command_receiver) = mpsc::unbounded_channel();
-        let mut tray = VoiceToTextTray::new("/tmp/icons".to_string(), command_sender);
+        let mut tray = OneScribeTray::new("/tmp/icons".to_string(), command_sender);
         tray.apply_event(DaemonEvent::StateChanged(AppState::Recording));
 
-        assert_eq!(tray.status_icon_name(), "voicetotext-recording-symbolic");
+        assert_eq!(tray.status_icon_name(), "onescribe-recording-symbolic");
         assert_eq!(tray.state_label(), "Recording");
     }
 

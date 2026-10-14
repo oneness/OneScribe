@@ -2,7 +2,7 @@
 
 ## The Problem
 
-VoiceToText tries to use the `org.freedesktop.portal.GlobalShortcuts` D-Bus
+OneScribe tries to use the `org.freedesktop.portal.GlobalShortcuts` D-Bus
 portal (via the `ashpd` Rust crate) to register **Alt+Space** as a global
 hotkey. On GNOME 50 this bind reliably fails, because the portal backend
 crashes.
@@ -10,7 +10,7 @@ crashes.
 ## Root Cause (confirmed via journal, GNOME 50)
 
 ```
-VoiceToText binary
+OneScribe binary
   └─ ashpd::GlobalShortcuts::create_session()
   └─ ashpd::GlobalShortcuts::bind_shortcuts(["Alt+space"])
   └─ D-Bus → org.freedesktop.portal.Desktop
@@ -21,7 +21,7 @@ VoiceToText binary
 ```
 
 `gnome-control-center-global-shortcuts-provider` tries to show a key-binding
-dialog to let the user assign the shortcut. Because VoiceToText is a
+dialog to let the user assign the shortcut. Because OneScribe is a
 windowless background daemon, there's no parent surface, so
 `gdk_surface_get_display` fails its assertion and the process segfaults. The
 portal reports this back to the caller as error code 2 ("Other") — confirmed
@@ -39,7 +39,7 @@ dbus-...-org.gnome.Settings.GlobalShortcutsProvider@N.service: Main process exit
 dbus-...-org.gnome.Settings.GlobalShortcutsProvider@N.service: Failed with result 'core-dump'.
 ```
 
-This is a GNOME 50 bug, not something VoiceToText can work around at the
+This is a GNOME 50 bug, not something OneScribe can work around at the
 portal level — there's no way to supply a parent window for a background
 daemon.
 
@@ -50,15 +50,15 @@ keeps running. On **every startup**, before entering its event loop, it also
 registers Alt+Space as a **GNOME custom keyboard shortcut** directly via
 `gsettings` (`ensure_gnome_custom_shortcut()`):
 
-- Adds `/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/voicetotext/`
+- Adds `/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/onescribe/`
   to the `custom-keybindings` list (schema
   `org.gnome.settings-daemon.plugins.media-keys`), preserving any existing
   entries.
-- Sets `name` = `VoiceToText Toggle`, `binding` = `<Alt>space`, `command` =
-  `bash -c 'echo toggle > /run/user/$UID/voicetotext-control'` on that
+- Sets `name` = `OneScribe Toggle`, `binding` = `<Alt>space`, `command` =
+  `bash -c 'echo toggle > /run/user/$UID/onescribe-control'` on that
   keybinding's relocatable schema.
 
-The daemon listens on that control FIFO (`/run/user/$UID/voicetotext-control`)
+The daemon listens on that control FIFO (`/run/user/$UID/onescribe-control`)
 independently of the portal session, so pressing Alt+Space toggles recording
 through GNOME's own shortcut dispatch instead of the crashing portal path.
 
@@ -77,7 +77,7 @@ fallback stays configured but simply goes unused.
 ### 1. Check the daemon log
 
 ```bash
-journalctl --user --since "1 hour ago" | grep voicetotext
+journalctl --user --since "1 hour ago" | grep onescribe
 # or, if running manually, check wherever you redirected stdout/stderr
 ```
 
@@ -96,13 +96,13 @@ The portal warning is expected on GNOME 50 and does not indicate a problem.
 
 ```bash
 gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings
-# should include .../custom-keybindings/voicetotext/
+# should include .../custom-keybindings/onescribe/
 
-gsettings get org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/voicetotext/ binding
+gsettings get org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/onescribe/ binding
 # '<Alt>space'
 
-gsettings get org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/voicetotext/ command
-# "bash -c 'echo toggle > /run/user/<uid>/voicetotext-control'"
+gsettings get org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/onescribe/ command
+# "bash -c 'echo toggle > /run/user/<uid>/onescribe-control'"
 ```
 
 If these are missing, `gsettings` may not be available in the daemon's
@@ -113,8 +113,8 @@ than failing the daemon.
 ### 3. Verify the control FIFO exists and the daemon is running
 
 ```bash
-ls -la /run/user/$(id -u)/voicetotext-control   # should be a named pipe (prw-...)
-pgrep -a voicetotext-linux-core
+ls -la /run/user/$(id -u)/onescribe-control   # should be a named pipe (prw-...)
+pgrep -a onescribe-linux-core
 ```
 
 ### 4. Confirm the crash is the known GNOME 50 bug (optional)
@@ -126,7 +126,7 @@ journalctl --user | grep -i "core-dump"
 
 If you see `Failed with result 'core-dump'` for
 `org.gnome.Settings.GlobalShortcutsProvider`, this is the known upstream bug
-described above — no action needed on VoiceToText's part.
+described above — no action needed on OneScribe's part.
 
 ## Why the Portal Path Is Still Attempted
 
@@ -136,5 +136,5 @@ it outright, so that:
 - The daemon works unmodified on GNOME versions/desktops where the portal
   bind succeeds (e.g., some GNOME 49.x builds where the backend grabs the key
   directly without the dialog).
-- If GNOME fixes the GNOME 50 segfault upstream, VoiceToText picks up the fix
+- If GNOME fixes the GNOME 50 segfault upstream, OneScribe picks up the fix
   automatically with no release needed on our side.

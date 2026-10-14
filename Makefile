@@ -17,8 +17,8 @@ MAKEFLAGS += --no-builtin-rules
 .DEFAULT_GOAL := help
 
 # Project settings
-PROJECT_NAME := VoiceToText
-SCHEME := VoiceToText
+PROJECT_NAME := OneScribe
+SCHEME := OneScribe
 CONFIGURATION := Debug
 TEST_DESTINATION := platform=macOS
 
@@ -32,7 +32,7 @@ help: ## Show available targets
 	@grep -E '^[a-zA-Z_-]+.*## .*' $(MAKEFILE_LIST) | awk 'BEGIN {FS = "## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
 setup: ## Prompt for API key and save config for Finder/Xcode/Terminal launches
-	@config_dir="$$HOME/Library/Application Support/VoiceToText"; \
+	@config_dir="$$HOME/Library/Application Support/OneScribe"; \
 	config_path="$$config_dir/config.json"; \
 	if [[ -n "$${GROQ_API_KEY:-}" ]]; then \
 		echo "GROQ_API_KEY is already set in the environment. Setup not needed."; \
@@ -57,7 +57,7 @@ setup: ## Prompt for API key and save config for Finder/Xcode/Terminal launches
 	printf '{"groq_api_key":"%s"}\n' "$$escaped_key" > "$$config_path"; \
 	chmod 600 "$$config_path"; \
 	echo "Saved API key to $$config_path"; \
-	echo "VoiceToText will read this key when launched from Finder, Xcode, or Terminal."
+	echo "OneScribe will read this key when launched from Finder, Xcode, or Terminal."
 
 compile: ## Build the Xcode project
 	@echo "Building $(PROJECT_NAME)..."

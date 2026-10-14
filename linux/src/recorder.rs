@@ -8,7 +8,7 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use crate::AudioCapture;
 
 pub const DEFAULT_RECORD_SECONDS: u64 = 5;
-pub const SOURCE_ENV_KEY: &str = "VOICETOTEXT_SOURCE";
+pub const SOURCE_ENV_KEY: &str = "ONESCRIBE_SOURCE";
 
 #[derive(Debug)]
 pub enum RecorderError {
@@ -314,7 +314,7 @@ pub fn temp_recording_path() -> PathBuf {
         .duration_since(UNIX_EPOCH)
         .unwrap_or_default()
         .as_nanos();
-    env::temp_dir().join(format!("voicetotext-recording-{suffix}.ogg"))
+    env::temp_dir().join(format!("onescribe-recording-{suffix}.ogg"))
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -490,7 +490,7 @@ mod tests {
             path.file_name()
                 .and_then(|name| name.to_str())
                 .unwrap_or_default()
-                .starts_with("voicetotext-recording-")
+                .starts_with("onescribe-recording-")
         );
     }
 }

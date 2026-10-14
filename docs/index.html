@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VoiceToText — Instant Dictation for macOS and Linux</title>
+<title>OneScribe — Instant Dictation for macOS and Linux</title>
 <style>
   :root {
     --bg: #fafbfc;
@@ -301,7 +301,7 @@
 <!-- ═══ 1. Title ═══ -->
 <section class="slide">
   <div class="box">
-    <h1>VoiceToText</h1>
+    <h1>OneScribe</h1>
     <p class="tagline">Instant dictation for macOS and Linux.<br>One hotkey. No window. Text ready on your clipboard.</p>
   </div>
 </section>
@@ -311,7 +311,7 @@
   <div class="box">
     <div class="label">why</div>
     <h2>Typing is slow</h2>
-    <p class="big">Speaking is 3–4× faster than typing.<br>Most dictation tools are heavyweight, cloud-locked, or tied to a specific app.<br><br>VoiceToText is a background utility: press a hotkey, speak, and the transcription is copied to your clipboard.</p>
+    <p class="big">Speaking is 3–4× faster than typing.<br>Most dictation tools are heavyweight, cloud-locked, or tied to a specific app.<br><br>OneScribe is a background utility: press a hotkey, speak, and the transcription is copied to your clipboard.</p>
   </div>
 </section>
 
@@ -393,7 +393,7 @@
       <tr><td><code>RecordingManager</code></td><td>AVAudioRecorder → .m4a at 16 kHz mono</td></tr>
       <tr><td><code>GroqTranscriber</code></td><td>URLSession multipart POST, 30s timeout</td></tr>
       <tr><td><code>AutoPaster</code></td><td>NSPasteboard + CGEvent Cmd+V synthesis</td></tr>
-      <tr><td><code>TranscriptionJournal</code></td><td>Daily .md log in ~/Documents/VoiceToText/</td></tr>
+      <tr><td><code>TranscriptionJournal</code></td><td>Daily .md log in ~/Documents/OneScribe/</td></tr>
       <tr><td><code>StatusItemController</code></td><td>Menu bar icon with state badges</td></tr>
     </table>
   </div>
@@ -478,7 +478,7 @@
   <div class="box">
     <div class="label">journal</div>
     <h2>Daily Markdown log</h2>
-    <p class="big">Every transcription is appended to a daily file in <code>~/Documents/VoiceToText/</code>. Both platforms produce identical Markdown.</p>
+    <p class="big">Every transcription is appended to a daily file in <code>~/Documents/OneScribe/</code>. Both platforms produce identical Markdown.</p>
     <div class="mono" style="margin-top: 20px; font-size: 15px;">
       <span class="kw"># Transcriptions - May 31, 2026</span><br><br>
       <span class="str">## 2:34 PM</span><br>
@@ -550,7 +550,7 @@
       cd linux && cargo build --release<br><br>
       <span class="cm"># 3. Run the daemon — local transcription is the</span><br>
       <span class="cm">#    default; the model auto-downloads on first run</span><br>
-      ./target/release/voicetotext-linux-core daemon<br><br>
+      ./target/release/onescribe-linux-core daemon<br><br>
       <span class="cm"># Press Alt+Space to record — offline</span>
     </div>
   </div>

@@ -11,7 +11,7 @@ class RecordingManager: NSObject, ObservableObject {
 
     private var audioRecorder: AVAudioRecorder?
     private var recordingURL: URL?
-    private let logger = OSLog(subsystem: "com.voicetext.app", category: "RecordingManager")
+    private let logger = OSLog(subsystem: "com.onescribe.app", category: "RecordingManager")
 
     // Callback for when recording stops with an audio file
     var onRecordingComplete: ((URL) -> Void)?
@@ -37,7 +37,7 @@ class RecordingManager: NSObject, ObservableObject {
                         DispatchQueue.main.async {
                             let alert = NSAlert()
                             alert.messageText = "Microphone Access Required"
-                            alert.informativeText = "VoiceToText needs microphone access to record audio. Please grant permission in System Settings > Privacy & Security > Microphone."
+                            alert.informativeText = "OneScribe needs microphone access to record audio. Please grant permission in System Settings > Privacy & Security > Microphone."
                             alert.alertStyle = .warning
                             alert.addButton(withTitle: "Open System Settings")
                             alert.addButton(withTitle: "Cancel")
@@ -53,7 +53,7 @@ class RecordingManager: NSObject, ObservableObject {
                 DispatchQueue.main.async {
                     let alert = NSAlert()
                     alert.messageText = "Microphone Access Required"
-                    alert.informativeText = "VoiceToText needs microphone access to record audio. Please grant permission in System Settings > Privacy & Security > Microphone."
+                    alert.informativeText = "OneScribe needs microphone access to record audio. Please grant permission in System Settings > Privacy & Security > Microphone."
                     alert.alertStyle = .warning
                     alert.addButton(withTitle: "Open System Settings")
                     alert.addButton(withTitle: "Cancel")

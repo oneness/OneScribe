@@ -1,10 +1,10 @@
-# VoiceToText Linux Clone Plan
+# OneScribe Linux Clone Plan
 
 Last updated: March 7, 2026
 
 ## Goal
 
-Build a Linux clone of the current macOS VoiceToText app with GNOME on NixOS as the primary target.
+Build a Linux clone of the current macOS OneScribe app with GNOME on NixOS as the primary target.
 
 Target behavior:
 
@@ -39,7 +39,7 @@ The existing app is small and mostly organized around one workflow:
 Config behavior to preserve:
 
 1. `GROQ_API_KEY` environment variable wins.
-2. `VOICETOTEXT_CONFIG_PATH` may point to a JSON config file.
+2. `ONESCRIBE_CONFIG_PATH` may point to a JSON config file.
 3. Config file accepts `groq_api_key` or `GROQ_API_KEY`.
 
 ## Linux Reality Check
@@ -135,14 +135,14 @@ Responsibilities:
 Use Linux-native defaults:
 
 1. `GROQ_API_KEY` environment variable.
-2. `VOICETOTEXT_CONFIG_PATH` override.
-3. `${XDG_CONFIG_HOME:-~/.config}/voicetotext/config.json`
+2. `ONESCRIBE_CONFIG_PATH` override.
+3. `${XDG_CONFIG_HOME:-~/.config}/onescribe/config.json`
 
 ### Journal path
 
 Use:
 
-1. `${XDG_DOCUMENTS_DIR:-~/Documents}/VoiceToText`
+1. `${XDG_DOCUMENTS_DIR:-~/Documents}/OneScribe`
 
 Keep the markdown format byte-for-byte compatible with the macOS app.
 

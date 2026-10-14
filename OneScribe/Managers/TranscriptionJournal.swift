@@ -8,14 +8,14 @@ class TranscriptionJournal {
     static let shared = TranscriptionJournal()
 
     private let journalDirectory: URL
-    private let logger = OSLog(subsystem: "com.voicetext.app", category: "TranscriptionJournal")
+    private let logger = OSLog(subsystem: "com.onescribe.app", category: "TranscriptionJournal")
     private let dateFormatter: DateFormatter
     private let timeFormatter: DateFormatter
 
     private init() {
-        // Use ~/Documents/VoiceToText/ directory
+        // Use ~/Documents/OneScribe/ directory
         let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        self.journalDirectory = documentsPath.appendingPathComponent("VoiceToText")
+        self.journalDirectory = documentsPath.appendingPathComponent("OneScribe")
 
         // Date formatter for filenames: YYYY-MM-DD.md
         self.dateFormatter = DateFormatter()

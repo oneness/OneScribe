@@ -1,4 +1,4 @@
-# VoiceToText Speed and Accuracy Review
+# OneScribe Speed and Accuracy Review
 
 **Review date:** February 7, 2026  
 **Focus:** Improve end-to-end latency first, then accuracy without large speed regressions.
@@ -12,61 +12,61 @@ Current model selection (`whisper-large-v3-turbo`) is already one of the fastest
 ### Critical
 
 1. Hardcoded API key in source
-- File: `VoiceToText/Managers/GroqTranscriber.swift:80`
+- File: `OneScribe/Managers/GroqTranscriber.swift:80`
 - Risk: security incident, key abuse, rate limiting, and unstable latency/cost.
 - Action: rotate key immediately and load from Keychain or environment.
 
 ### High
 
 1. Fixed 500ms wait on every recording stop
-- File: `VoiceToText/Managers/RecordingManager.swift:111`
+- File: `OneScribe/Managers/RecordingManager.swift:111`
 - Impact: guaranteed +0.5s latency per transcription.
 - Action: trigger completion from recorder delegate (`audioRecorderDidFinishRecording`) instead of `asyncAfter`.
 
 2. Transcription flow pinned to main actor
-- File: `VoiceToText/App/VoiceToTextApp.swift:116`
+- File: `OneScribe/App/OneScribeApp.swift:116`
 - Impact: network and follow-up work can block UI responsiveness and add scheduling delays.
 - Action: run transcribe/journal work off-main, switch to `MainActor.run` only for UI state updates.
 
 3. Blocking sleep in paste flow
-- File: `VoiceToText/Managers/AutoPaster.swift:37`
+- File: `OneScribe/Managers/AutoPaster.swift:37`
 - Impact: unnecessary 100ms stall, can freeze caller thread.
 - Action: remove `Thread.sleep`; if needed, use non-blocking coordination.
 
 4. Missing speech accuracy controls in request
-- File: `VoiceToText/Managers/GroqTranscriber.swift:42-46`
+- File: `OneScribe/Managers/GroqTranscriber.swift:42-46`
 - Impact: no explicit `language` and no vocabulary/context `prompt`, leaving accuracy on the table.
 - Action: add optional multipart fields for `language` and `prompt`.
 
 5. No compilable test safety net
-- File: `VoiceToTextTests/VoiceToTextTests.swift:455`, `VoiceToTextTests/VoiceToTextTests.swift:659`, `VoiceToTextTests/VoiceToTextTests.swift:682`, `VoiceToTextTests/VoiceToTextTests.swift:334`
+- File: `OneScribeTests/OneScribeTests.swift:455`, `OneScribeTests/OneScribeTests.swift:659`, `OneScribeTests/OneScribeTests.swift:682`, `OneScribeTests/OneScribeTests.swift:334`
 - Impact: optimization work can regress behavior with no reliable guard.
 - Action: fix stale test APIs and protocol mismatches before refactors.
 
 ### Medium
 
 1. Whole-file load before upload
-- File: `VoiceToText/Managers/GroqTranscriber.swift:27`
+- File: `OneScribe/Managers/GroqTranscriber.swift:27`
 - Impact: memory spikes and poorer scaling with long audio files.
 - Action: stream multipart body or enforce tighter recording length limits.
 
 2. Temp recordings are not cleaned up
-- File: `VoiceToText/Managers/RecordingManager.swift:78-80`
+- File: `OneScribe/Managers/RecordingManager.swift:78-80`
 - Impact: temp directory growth over time.
 - Action: delete file after transcription success/failure.
 
 3. Journal write path rewrites full file each save
-- File: `VoiceToText/Managers/TranscriptionJournal.swift:61-79`
+- File: `OneScribe/Managers/TranscriptionJournal.swift:61-79`
 - Impact: unnecessary I/O as history grows.
 - Action: append-only writing via file handle.
 
 4. Excessive debug logging in hotkey path
-- File: `VoiceToText/Hotkeys/HotkeyManager.swift:96`, `VoiceToText/Hotkeys/HotkeyManager.swift:107`
+- File: `OneScribe/Hotkeys/HotkeyManager.swift:96`, `OneScribe/Hotkeys/HotkeyManager.swift:107`
 - Impact: avoidable overhead and noisy logs during key monitoring.
 - Action: gate debug logging by build config/log level.
 
 5. Coarse HTTP error mapping
-- File: `VoiceToText/Managers/HTTPClient.swift:27-32`
+- File: `OneScribe/Managers/HTTPClient.swift:27-32`
 - Impact: harder to tune retries/backoff for rate limits and transient failures.
 - Action: parse response body/status into structured errors (429/5xx/timeouts).
 
@@ -76,7 +76,7 @@ As of **February 7, 2026**:
 
 1. `whisper-large-v3-turbo`
 - Best default for speed in your current integration.
-- Already used in `VoiceToText/Managers/GroqTranscriber.swift:45`.
+- Already used in `OneScribe/Managers/GroqTranscriber.swift:45`.
 
 2. `distil-whisper-large-v3-en` (English-only)
 - Potentially faster than turbo on Groq model card.

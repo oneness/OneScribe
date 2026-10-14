@@ -6,7 +6,7 @@ use std::process;
 use std::time::Duration;
 
 use chrono::Local;
-use voicetotext_linux_core::{
+use onescribe_linux_core::{
     AudioCapture, ClipboardCopyError, Config, DEFAULT_LOCAL_MODEL_FILE, DEFAULT_LOCAL_MODEL_URL,
     DEFAULT_RECORD_SECONDS, LocalTranscriber, SOURCE_ENV_KEY, TranscriptionBackendChoice,
     TranscriptionEngine, copy_to_clipboard, current_environment, guess_mime_type, journal_stamp,
@@ -107,7 +107,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
     let journal_dir = resolve_journal_dir(&environment, &home_dir);
     let stamp = journal_stamp(Local::now());
     let journal_path =
-        voicetotext_linux_core::append_transcript_to_journal(&journal_dir, &stamp, &transcript)?;
+        onescribe_linux_core::append_transcript_to_journal(&journal_dir, &stamp, &transcript)?;
 
     match copy_to_clipboard(&transcript) {
         Ok(method) => {
@@ -270,7 +270,7 @@ where
 }
 
 fn usage() -> &'static str {
-    "usage: voicetotext-linux-core <audio-file-path> | voicetotext-linux-core record [seconds] | voicetotext-linux-core daemon | voicetotext-linux-core sources"
+    "usage: onescribe-linux-core <audio-file-path> | onescribe-linux-core record [seconds] | onescribe-linux-core daemon | onescribe-linux-core sources"
 }
 
 fn print_sources() -> Result<(), Box<dyn std::error::Error>> {
@@ -293,7 +293,7 @@ mod tests {
     #[test]
     fn parse_command_accepts_file_path_mode() {
         let command = parse_command([
-            OsString::from("voicetotext-linux-core"),
+            OsString::from("onescribe-linux-core"),
             OsString::from("/tmp/test.wav"),
         ])
         .unwrap();
@@ -309,7 +309,7 @@ mod tests {
     #[test]
     fn parse_command_uses_default_record_duration() {
         let command = parse_command([
-            OsString::from("voicetotext-linux-core"),
+            OsString::from("onescribe-linux-core"),
             OsString::from("record"),
         ])
         .unwrap();
@@ -327,7 +327,7 @@ mod tests {
     #[test]
     fn parse_command_accepts_custom_record_duration() {
         let command = parse_command([
-            OsString::from("voicetotext-linux-core"),
+            OsString::from("onescribe-linux-core"),
             OsString::from("record"),
             OsString::from("7"),
         ])
@@ -344,7 +344,7 @@ mod tests {
     #[test]
     fn parse_command_accepts_daemon_mode() {
         let command = parse_command([
-            OsString::from("voicetotext-linux-core"),
+            OsString::from("onescribe-linux-core"),
             OsString::from("daemon"),
         ])
         .unwrap();
@@ -360,7 +360,7 @@ mod tests {
     #[test]
     fn parse_command_accepts_sources_mode() {
         let command = parse_command([
-            OsString::from("voicetotext-linux-core"),
+            OsString::from("onescribe-linux-core"),
             OsString::from("sources"),
         ])
         .unwrap();

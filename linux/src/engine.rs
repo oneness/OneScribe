@@ -274,14 +274,14 @@ mod tests {
 
     // Exercises the CLI batch route (audio file -> ffmpeg decode -> model)
     // against a real model. Run with:
-    //   VOICETOTEXT_TEST_MODEL=~/.local/share/voicetotext/models/<model>.gguf \
-    //   VOICETOTEXT_TEST_AUDIO=/path/to/speech.wav \
+    //   ONESCRIBE_TEST_MODEL=~/.local/share/onescribe/models/<model>.gguf \
+    //   ONESCRIBE_TEST_AUDIO=/path/to/speech.wav \
     //   cargo test --release -- --ignored transcribes_speech
     #[test]
-    #[ignore = "requires VOICETOTEXT_TEST_MODEL and VOICETOTEXT_TEST_AUDIO"]
+    #[ignore = "requires ONESCRIBE_TEST_MODEL and ONESCRIBE_TEST_AUDIO"]
     fn file_capture_transcribes_speech() {
-        let model_path = std::env::var("VOICETOTEXT_TEST_MODEL").expect("VOICETOTEXT_TEST_MODEL");
-        let audio_path = std::env::var("VOICETOTEXT_TEST_AUDIO").expect("VOICETOTEXT_TEST_AUDIO");
+        let model_path = std::env::var("ONESCRIBE_TEST_MODEL").expect("ONESCRIBE_TEST_MODEL");
+        let audio_path = std::env::var("ONESCRIBE_TEST_AUDIO").expect("ONESCRIBE_TEST_AUDIO");
         let bytes = std::fs::read(&audio_path).expect("read audio sample");
 
         let audio = AudioCapture::new(
@@ -301,10 +301,10 @@ mod tests {
     // Exercises the daemon's streaming route: raw s16le fed in recorder-sized
     // chunks while "recording", final text on finish. Same env vars as above.
     #[test]
-    #[ignore = "requires VOICETOTEXT_TEST_MODEL and VOICETOTEXT_TEST_S16LE"]
+    #[ignore = "requires ONESCRIBE_TEST_MODEL and ONESCRIBE_TEST_S16LE"]
     fn streaming_capture_transcribes_speech() {
-        let model_path = std::env::var("VOICETOTEXT_TEST_MODEL").expect("VOICETOTEXT_TEST_MODEL");
-        let audio_path = std::env::var("VOICETOTEXT_TEST_S16LE").expect("VOICETOTEXT_TEST_S16LE");
+        let model_path = std::env::var("ONESCRIBE_TEST_MODEL").expect("ONESCRIBE_TEST_MODEL");
+        let audio_path = std::env::var("ONESCRIBE_TEST_S16LE").expect("ONESCRIBE_TEST_S16LE");
         let bytes = std::fs::read(&audio_path).expect("read raw pcm sample");
 
         let transcriber =
@@ -322,6 +322,6 @@ mod tests {
     }
 
     fn test_language() -> Option<String> {
-        std::env::var("VOICETOTEXT_TEST_LANGUAGE").ok()
+        std::env::var("ONESCRIBE_TEST_LANGUAGE").ok()
     }
 }

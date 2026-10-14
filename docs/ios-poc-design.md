@@ -1,4 +1,4 @@
-# VoiceToText iOS POC Design
+# OneScribe iOS POC Design
 
 Last updated: 2026-02-12
 
@@ -12,7 +12,7 @@ Last updated: 2026-02-12
 
 ## 1. Objective
 
-Build a very simple iOS version of VoiceToText that:
+Build a very simple iOS version of OneScribe that:
 
 1. Starts recording immediately when opened.
 2. Stops recording with one tap (or action button shortcut trigger).
@@ -81,10 +81,10 @@ Goal: both macOS and iOS append to the same logical journal with iCloud sync.
 POC strategy:
 
 1. iOS writes to iCloud Documents container:
-   - `FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents/VoiceToText")`
+   - `FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents/OneScribe")`
 2. If iCloud container unavailable, fallback to local app Documents:
-   - `.../Documents/VoiceToText` inside app sandbox.
-3. macOS app should also prefer the same iCloud location, then fallback to current `~/Documents/VoiceToText`.
+   - `.../Documents/OneScribe` inside app sandbox.
+3. macOS app should also prefer the same iCloud location, then fallback to current `~/Documents/OneScribe`.
 
 Rationale: this gives deterministic cross-device append behavior without extra backend.
 
@@ -112,8 +112,8 @@ Launch behavior:
 
 ### Reuse from Existing Code
 
-1. `GroqTranscriber` request/response flow (`VoiceToText/Managers/GroqTranscriber.swift`).
-2. `HTTPClient` abstraction (`VoiceToText/Managers/HTTPClient.swift`).
+1. `GroqTranscriber` request/response flow (`OneScribe/Managers/GroqTranscriber.swift`).
+2. `HTTPClient` abstraction (`OneScribe/Managers/HTTPClient.swift`).
 3. `Transcription` model and history concepts.
 4. Markdown journal append logic from `TranscriptionJournal` with platform-safe file APIs.
 
@@ -130,8 +130,8 @@ Launch behavior:
    - `GroqTranscriber.swift`
    - `JournalWriter.swift` (platform-neutral file append logic)
    - `TranscriptionStore.swift` (recent list persistence)
-2. `VoiceToTextiOS/`
-   - `App/VoiceToTextiOSApp.swift`
+2. `OneScribeiOS/`
+   - `App/OneScribeiOSApp.swift`
    - `Features/Recorder/RecorderViewModel.swift`
    - `Features/Recorder/RecorderView.swift`
    - `Integrations/ClipboardService.swift`

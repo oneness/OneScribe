@@ -11,13 +11,13 @@ pub enum TranscriptionBackendChoice {
 /// config-file key, else the default.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Config {
-    /// VOICETOTEXT_BACKEND / "backend": "local" or "groq". Local is the
+    /// ONESCRIBE_BACKEND / "backend": "local" or "groq". Local is the
     /// default — Groq runs only when explicitly selected.
     pub backend: TranscriptionBackendChoice,
-    /// VOICETOTEXT_MODEL_PATH / "model_path", defaulting to the bundled model
+    /// ONESCRIBE_MODEL_PATH / "model_path", defaulting to the bundled model
     /// under ~/.local/share. `~` is expanded.
     pub model_path: PathBuf,
-    /// VOICETOTEXT_LANGUAGE / "language" (e.g. "en-US"); None = autodetect.
+    /// ONESCRIBE_LANGUAGE / "language" (e.g. "en-US"); None = autodetect.
     pub language: Option<String>,
     /// GROQ_API_KEY / "groq_api_key" (or legacy "GROQ_API_KEY" file key).
     pub groq_api_key: Option<String>,
@@ -43,7 +43,7 @@ impl Config {
         let setting =
             |env_key: &str, file_key: &str| non_empty_env(environment, env_key).or_else(|| file_field(file_key));
 
-        let backend = match setting("VOICETOTEXT_BACKEND", "backend").as_deref() {
+        let backend = match setting("ONESCRIBE_BACKEND", "backend").as_deref() {
             None => TranscriptionBackendChoice::Local,
             Some(value) if value.eq_ignore_ascii_case("groq") => TranscriptionBackendChoice::Groq,
             Some(value) if value.eq_ignore_ascii_case("local") => TranscriptionBackendChoice::Local,
@@ -53,15 +53,15 @@ impl Config {
             }
         };
 
-        let model_path = setting("VOICETOTEXT_MODEL_PATH", "model_path")
+        let model_path = setting("ONESCRIBE_MODEL_PATH", "model_path")
             .map(|path| expand_home(&path, home_dir))
             .unwrap_or_else(|| {
                 home_dir
-                    .join(".local/share/voicetotext/models")
+                    .join(".local/share/onescribe/models")
                     .join(crate::DEFAULT_LOCAL_MODEL_FILE)
             });
 
-        let language = setting("VOICETOTEXT_LANGUAGE", "language");
+        let language = setting("ONESCRIBE_LANGUAGE", "language");
 
         let groq_api_key =
             setting("GROQ_API_KEY", "groq_api_key").or_else(|| file_field("GROQ_API_KEY"));
@@ -79,7 +79,7 @@ pub fn resolve_config_path(
     environment: &[(impl AsRef<str>, impl AsRef<str>)],
     home_dir: &Path,
 ) -> PathBuf {
-    if let Some(override_path) = env_value(environment, "VOICETOTEXT_CONFIG_PATH") {
+    if let Some(override_path) = env_value(environment, "ONESCRIBE_CONFIG_PATH") {
         return expand_home(&override_path, home_dir);
     }
 
@@ -87,7 +87,7 @@ pub fn resolve_config_path(
         .map(|value| expand_home(&value, home_dir))
         .unwrap_or_else(|| home_dir.join(".config"));
 
-    base_dir.join("voicetotext").join("config.json")
+    base_dir.join("onescribe").join("config.json")
 }
 
 fn non_empty_env(
@@ -179,14 +179,14 @@ mod tests {
         );
         assert_eq!(
             resolve(
-                &[("VOICETOTEXT_BACKEND", "groq")],
+                &[("ONESCRIBE_BACKEND", "groq")],
                 Some(r#"{"backend":"local"}"#)
             )
             .backend,
             TranscriptionBackendChoice::Groq
         );
         assert_eq!(
-            resolve(&[("VOICETOTEXT_BACKEND", "Local")], None).backend,
+            resolve(&[("ONESCRIBE_BACKEND", "Local")], None).backend,
             TranscriptionBackendChoice::Local
         );
     }
@@ -201,7 +201,7 @@ mod tests {
 
     #[test]
     fn empty_env_overrides_are_ignored() {
-        let environment = [("VOICETOTEXT_BACKEND", ""), ("VOICETOTEXT_MODEL_PATH", " ")];
+        let environment = [("ONESCRIBE_BACKEND", ""), ("ONESCRIBE_MODEL_PATH", " ")];
         let config = resolve(
             &environment,
             Some(r#"{"backend":"local","model_path":"~/models/x.gguf"}"#),
@@ -215,7 +215,7 @@ mod tests {
     fn model_path_resolution_order() {
         assert_eq!(
             resolve(&NO_ENV, None).model_path,
-            PathBuf::from("/home/tester/.local/share/voicetotext/models")
+            PathBuf::from("/home/tester/.local/share/onescribe/models")
                 .join(crate::DEFAULT_LOCAL_MODEL_FILE)
         );
         assert_eq!(
@@ -224,7 +224,7 @@ mod tests {
         );
         assert_eq!(
             resolve(
-                &[("VOICETOTEXT_MODEL_PATH", "/opt/models/y.gguf")],
+                &[("ONESCRIBE_MODEL_PATH", "/opt/models/y.gguf")],
                 Some(r#"{"model_path":"~/models/x.gguf"}"#)
             )
             .model_path,
@@ -243,7 +243,7 @@ mod tests {
         );
         assert_eq!(
             resolve(
-                &[("VOICETOTEXT_LANGUAGE", "de-DE")],
+                &[("ONESCRIBE_LANGUAGE", "de-DE")],
                 Some(r#"{"language":"en-US"}"#)
             )
             .language
@@ -254,7 +254,7 @@ mod tests {
 
     #[test]
     fn override_config_path_wins() {
-        let environment = [("VOICETOTEXT_CONFIG_PATH", "~/custom/config.json")];
+        let environment = [("ONESCRIBE_CONFIG_PATH", "~/custom/config.json")];
         let path = resolve_config_path(&environment, Path::new(HOME));
 
         assert_eq!(path, PathBuf::from("/home/tester/custom/config.json"));
@@ -267,7 +267,7 @@ mod tests {
 
         assert_eq!(
             path,
-            PathBuf::from("/home/tester/.config-alt/voicetotext/config.json")
+            PathBuf::from("/home/tester/.config-alt/onescribe/config.json")
         );
     }
 
@@ -277,7 +277,7 @@ mod tests {
 
         assert_eq!(
             path,
-            PathBuf::from("/home/tester/.config/voicetotext/config.json")
+            PathBuf::from("/home/tester/.config/onescribe/config.json")
         );
     }
 }

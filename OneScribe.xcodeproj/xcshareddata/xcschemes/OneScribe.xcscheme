@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A0000110000000000000001"
-               BuildableName = "VoiceToText.app"
-               BlueprintName = "VoiceToText"
-               ReferencedContainer = "container:VoiceToText.xcodeproj">
+               BuildableName = "OneScribe.app"
+               BlueprintName = "OneScribe"
+               ReferencedContainer = "container:OneScribe.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A0000150000000000000001"
-               BuildableName = "VoiceToTextTests.xctest"
-               BlueprintName = "VoiceToTextTests"
-               ReferencedContainer = "container:VoiceToText.xcodeproj">
+               BuildableName = "OneScribeTests.xctest"
+               BlueprintName = "OneScribeTests"
+               ReferencedContainer = "container:OneScribe.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A0000150000000000000001"
-               BuildableName = "VoiceToTextTests.xctest"
-               BlueprintName = "VoiceToTextTests"
-               ReferencedContainer = "container:VoiceToText.xcodeproj">
+               BuildableName = "OneScribeTests.xctest"
+               BlueprintName = "OneScribeTests"
+               ReferencedContainer = "container:OneScribe.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A0000110000000000000001"
-            BuildableName = "VoiceToText.app"
-            BlueprintName = "VoiceToText"
-            ReferencedContainer = "container:VoiceToText.xcodeproj">
+            BuildableName = "OneScribe.app"
+            BlueprintName = "OneScribe"
+            ReferencedContainer = "container:OneScribe.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -78,9 +78,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A0000110000000000000001"
-            BuildableName = "VoiceToText.app"
-            BlueprintName = "VoiceToText"
-            ReferencedContainer = "container:VoiceToText.xcodeproj">
+            BuildableName = "OneScribe.app"
+            BlueprintName = "OneScribe"
+            ReferencedContainer = "container:OneScribe.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -95,9 +95,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A0000110000000000000001"
-            BuildableName = "VoiceToText.app"
-            BlueprintName = "VoiceToText"
-            ReferencedContainer = "container:VoiceToText.xcodeproj">
+            BuildableName = "OneScribe.app"
+            BlueprintName = "OneScribe"
+            ReferencedContainer = "container:OneScribe.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -10,7 +10,7 @@ class StatusItemController: ObservableObject {
     private let statusItem: NSStatusItem
     private let recordingManager: RecordingManager
     private var cancellables = Set<AnyCancellable>()
-    private let logger = OSLog(subsystem: "com.voicetext.app", category: "StatusItemController")
+    private let logger = OSLog(subsystem: "com.onescribe.app", category: "StatusItemController")
     private let iconSize = NSSize(width: 20, height: 20)
 
     init(recordingManager: RecordingManager = .shared) {
@@ -35,7 +35,7 @@ class StatusItemController: ObservableObject {
 
             // Fallback text if image generation fails
             if button.image == nil {
-                button.title = "VTT"
+                button.title = "OS"
             }
 
             print("DEBUG: Set status item button icon")
@@ -212,7 +212,7 @@ class StatusItemController: ObservableObject {
             if button.image == nil {
                 switch state {
                 case .idle:
-                    button.title = "VTT"
+                    button.title = "OS"
                 case .recording:
                     button.title = "REC"
                 case .transcribing:

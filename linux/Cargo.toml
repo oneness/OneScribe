@@ -1,10 +1,10 @@
 [package]
-name = "voicetotext-linux-core"
+name = "onescribe-linux-core"
 version = "0.1.0"
 edition = "2024"
 
 [lib]
-name = "voicetotext_linux_core"
+name = "onescribe_linux_core"
 path = "src/lib.rs"
 
 [dependencies]

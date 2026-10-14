@@ -1,8 +1,8 @@
-# VoiceToText architecture
+# OneScribe architecture
 
 ## Overview
 
-VoiceToText is a global-hotkey dictation utility that runs as an invisible system tray / menu bar app. It has two independent platform implementations:
+OneScribe is a global-hotkey dictation utility that runs as an invisible system tray / menu bar app. It has two independent platform implementations:
 
 - **macOS** — Swift + AppKit, built with Xcode
 - **Linux** — Rust, targets PipeWire + GNOME Wayland
@@ -32,7 +32,7 @@ clipboard  (NSPasteboard / wl-copy, xclip, or xsel)
     └── Linux: manual paste
     │
     ▼
-journal append  (~/Documents/VoiceToText/YYYY-MM-DD.md)
+journal append  (~/Documents/OneScribe/YYYY-MM-DD.md)
 ```
 
 Second hotkey press stops recording and triggers the rest of the pipeline. The app never opens a window during normal use.
@@ -43,8 +43,8 @@ Second hotkey press stops recording and triggers the rest of the pipeline. The a
 
 ### Entry point
 
-`VoiceToText/main.swift` creates `NSApplication` and sets `AppDelegate` as delegate.
-`VoiceToText/App/VoiceToTextApp.swift` (`AppDelegate`) wires everything up in `applicationDidFinishLaunching`:
+`OneScribe/main.swift` creates `NSApplication` and sets `AppDelegate` as delegate.
+`OneScribe/App/OneScribeApp.swift` (`AppDelegate`) wires everything up in `applicationDidFinishLaunching`:
 
 1. Creates `StatusItemController` (menu bar icon)
 2. Calls `HotkeyManager.shared.setup()`
@@ -59,7 +59,7 @@ Second hotkey press stops recording and triggers the rest of the pipeline. The a
 | `Managers/RecordingManager.swift` | `AVAudioRecorder` → `.m4a` at 16 kHz mono AAC; fires `onRecordingComplete(url)` after a 500 ms settle delay |
 | `Managers/GroqTranscriber.swift` | Multipart POST to Groq API via `URLSession`; 30-second timeout via `withThrowingTaskGroup` |
 | `Managers/AutoPaster.swift` | Copies to `NSPasteboard`, then synthesises `Cmd+V` via `CGEvent` on `cghidEventTap` |
-| `Managers/TranscriptionJournal.swift` | Appends to `~/Documents/VoiceToText/YYYY-MM-DD.md` with `## HH:MM` headers |
+| `Managers/TranscriptionJournal.swift` | Appends to `~/Documents/OneScribe/YYYY-MM-DD.md` with `## HH:MM` headers |
 | `Managers/HTTPClient.swift` | `URLSession` wrapper; maps 401 → `authenticationFailed`, other non-200 → `networkError` |
 | `Models/AppState.swift` | `enum AppState { idle, recording, transcribing }` |
 | `Models/TranscriptionError.swift` | Typed errors: `networkError`, `timeout`, `authenticationFailed`, `fileNotFound`, … |
@@ -94,17 +94,17 @@ The crate at `linux/` is both a binary and a library (`lib.rs` re-exports everyt
 
 `linux/src/main.rs` dispatches four CLI modes:
 
-- `voicetotext <audio-file>` — transcribe an existing file
-- `voicetotext record [seconds]` — record for N seconds, then transcribe
-- `voicetotext daemon` — start the tray + hotkey daemon (normal use)
-- `voicetotext sources` — list PipeWire audio sources
+- `onescribe <audio-file>` — transcribe an existing file
+- `onescribe record [seconds]` — record for N seconds, then transcribe
+- `onescribe daemon` — start the tray + hotkey daemon (normal use)
+- `onescribe sources` — list PipeWire audio sources
 
 ### Module map
 
 | Module | Role |
 |--------|------|
 | `state.rs` | `enum AppState { Idle, Recording, Transcribing }` |
-| `config.rs` | Backend selection (`backend`: local/groq), model path, and API key resolution (env var → XDG config file); `resolve_config_path()` respects `XDG_CONFIG_HOME` and `VOICETOTEXT_CONFIG_PATH` |
+| `config.rs` | Backend selection (`backend`: local/groq), model path, and API key resolution (env var → XDG config file); `resolve_config_path()` respects `XDG_CONFIG_HOME` and `ONESCRIBE_CONFIG_PATH` |
 | `engine.rs` | `TranscriptionEngine` enum — local on-device inference via `transcribe-cpp` (ggml) with a Nemotron GGUF, or the Groq cloud path |
 | `groq.rs` | Pure request builder and response parser — no I/O; validates 25 MB upload cap |
 | `transport.rs` | `reqwest::blocking` HTTP execution; maps non-2xx to `TransportError` |
@@ -119,14 +119,14 @@ The crate at `linux/` is both a binary and a library (`lib.rs` re-exports everyt
 
 `ashpd` GlobalShortcuts portal (`org.freedesktop.portal.GlobalShortcuts`) — the modern sandboxed approach for GNOME Wayland. Binds `"toggle-recording"` with preferred trigger `Alt+Space`. Requires `xdg-desktop-portal-gnome`.
 
-On GNOME 50, `gnome-control-center-global-shortcuts-provider` segfaults when `bind_shortcuts` tries to show its key-binding dialog without a parent window, so the portal bind reliably fails there. The daemon treats this as non-fatal and falls back to a GNOME custom keyboard shortcut (`<Alt>space` → writes `toggle` to a control FIFO at `/run/user/$UID/voicetotext-control`), which it registers itself via `gsettings` on every startup (`ensure_gnome_custom_shortcut()` in `hotkey_daemon.rs`) — no separate setup script or manual dconf edit required. If GNOME ever fixes the crash, the portal path is used automatically without any code change.
+On GNOME 50, `gnome-control-center-global-shortcuts-provider` segfaults when `bind_shortcuts` tries to show its key-binding dialog without a parent window, so the portal bind reliably fails there. The daemon treats this as non-fatal and falls back to a GNOME custom keyboard shortcut (`<Alt>space` → writes `toggle` to a control FIFO at `/run/user/$UID/onescribe-control`), which it registers itself via `gsettings` on every startup (`ensure_gnome_custom_shortcut()` in `hotkey_daemon.rs`) — no separate setup script or manual dconf edit required. If GNOME ever fixes the crash, the portal path is used automatically without any code change.
 
 ### Audio recording
 
 `pw-record` captures raw 16 kHz mono s16le PCM to stdout, consumed one of two ways:
 
 - **`StreamingPwRecorder`** (local daemon) — a reader thread forwards sample-aligned chunks over a channel to the live transcription worker; no encode step, no temp file.
-- **`PwRecordRecorder`** (Groq + CLI record mode) — piped into `ffmpeg` (Opus/OGG at 16 kbps, `voip` profile), written to `/tmp/voicetotext-recording-<nanoseconds>.ogg`.
+- **`PwRecordRecorder`** (Groq + CLI record mode) — piped into `ffmpeg` (Opus/OGG at 16 kbps, `voip` profile), written to `/tmp/onescribe-recording-<nanoseconds>.ogg`.
 
 Stop sends SIGINT to `pw-record` via `libc::kill`, then drains the sink.
 
@@ -134,7 +134,7 @@ Stop sends SIGINT to `pw-record` via `libc::kill`, then drains the sink.
 
 Selected at startup by `config.rs::resolve_backend()` into a `TranscriptionEngine` (`engine.rs`):
 
-- **local (offline)** — `transcribe-cpp` (ggml) loads a Nemotron Speech Streaming English 0.6B GGUF once at startup (~0.3 s). Daemon recordings are transcribed **live**: `StreamingPwRecorder` forwards raw PCM chunks (256 ms) over a channel to a worker thread that feeds the model's streaming session, so the final transcript is ready ~instantly at stop (measured ~0.6 s stop-to-clipboard including journaling). Models without streaming support fall back to a batch run over the accumulated audio automatically. CLI file/record modes use batch: audio (file or recorder OGG) is decoded to PCM via `ffmpeg`. Model auto-resolves to `~/.local/share/voicetotext/models/nemotron-speech-streaming-en-0.6b-Q8_0.gguf` and is **auto-downloaded on first run** (streamed to a `.partial` file, resumable via HTTP Range, size-verified, renamed into place; custom `model_path` values are never auto-downloaded). Overrides: `model_path`/`language` config keys, `VOICETOTEXT_MODEL_PATH`, `VOICETOTEXT_LANGUAGE`.
+- **local (offline)** — `transcribe-cpp` (ggml) loads a Nemotron Speech Streaming English 0.6B GGUF once at startup (~0.3 s). Daemon recordings are transcribed **live**: `StreamingPwRecorder` forwards raw PCM chunks (256 ms) over a channel to a worker thread that feeds the model's streaming session, so the final transcript is ready ~instantly at stop (measured ~0.6 s stop-to-clipboard including journaling). Models without streaming support fall back to a batch run over the accumulated audio automatically. CLI file/record modes use batch: audio (file or recorder OGG) is decoded to PCM via `ffmpeg`. Model auto-resolves to `~/.local/share/onescribe/models/nemotron-speech-streaming-en-0.6b-Q8_0.gguf` and is **auto-downloaded on first run** (streamed to a `.partial` file, resumable via HTTP Range, size-verified, renamed into place; custom `model_path` values are never auto-downloaded). Overrides: `model_path`/`language` config keys, `ONESCRIBE_MODEL_PATH`, `ONESCRIBE_LANGUAGE`.
 - **groq (cloud)** — same API and model as macOS. `build_groq_transcription_request()` in `groq.rs` is pure (no I/O) and fully unit-tested. `execute_http_request()` in `transport.rs` uses `reqwest::blocking` inside `tokio::task::spawn_blocking`.
 
 ### Clipboard
@@ -164,15 +164,15 @@ Both platforms share the same JSON config file. On Linux, **local is the default
 {"backend": "groq", "groq_api_key": "your-key-here"}
 ```
 
-(macOS only supports Groq.) `VOICETOTEXT_BACKEND` overrides the config key.
+(macOS only supports Groq.) `ONESCRIBE_BACKEND` overrides the config key.
 
 API key resolution priority (identical on both platforms):
 
 1. `GROQ_API_KEY` environment variable
 2. Platform config file:
-   - macOS: `~/Library/Application Support/VoiceToText/config.json`
-   - Linux: `~/.config/voicetotext/config.json` (respects `XDG_CONFIG_HOME`)
-3. `VOICETOTEXT_CONFIG_PATH` env var overrides the config file path
+   - macOS: `~/Library/Application Support/OneScribe/config.json`
+   - Linux: `~/.config/onescribe/config.json` (respects `XDG_CONFIG_HOME`)
+3. `ONESCRIBE_CONFIG_PATH` env var overrides the config file path
 
 ---
 
@@ -191,8 +191,8 @@ The transcript text goes here.
 
 Journal directory:
 
-- macOS: `~/Documents/VoiceToText/`
-- Linux: `~/Documents/VoiceToText/` (respects `XDG_DOCUMENTS_DIR`)
+- macOS: `~/Documents/OneScribe/`
+- Linux: `~/Documents/OneScribe/` (respects `XDG_DOCUMENTS_DIR`)
 
 ---
 
@@ -213,10 +213,10 @@ Journal directory:
 ## Source layout
 
 ```
-VoiceToText/                      macOS Swift app (Xcode)
+OneScribe/                        macOS Swift app (Xcode)
   main.swift                      NSApplication entry point
   App/
-    VoiceToTextApp.swift          AppDelegate — wires everything up
+    OneScribeApp.swift            AppDelegate — wires everything up
   UI/
     StatusItemController.swift    Menu bar icon and state badges
   Hotkeys/

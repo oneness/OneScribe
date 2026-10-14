@@ -1,4 +1,4 @@
-# VoiceToText
+# OneScribe
 
 Press a hotkey and speak to transcribe text on macOS or Linux. Linux copies the result to the clipboard; macOS also pastes it automatically.
 
@@ -9,7 +9,7 @@ the Groq cloud API, which Linux can also be configured to use.
 
 ## Quick links
 
-- **[Overview](https://www.birkey.co/VoiceToText/)** — what it is and how it works (space-bar to navigate)
+- **[Overview](https://www.birkey.co/OneScribe/)** — what it is and how it works (space-bar to navigate)
 - **[Architecture](docs/architecture.md)** — internals for both platforms
 
 ## Quick Start
@@ -40,15 +40,15 @@ export GROQ_API_KEY="your-groq-api-key"
 
 Option C: config file (works for Finder/Xcode launches too)
 ```bash
-mkdir -p ~/Library/Application\ Support/VoiceToText
-cat > ~/Library/Application\ Support/VoiceToText/config.json <<'JSON'
+mkdir -p ~/Library/Application\ Support/OneScribe
+cat > ~/Library/Application\ Support/OneScribe/config.json <<'JSON'
 {"groq_api_key":"your-groq-api-key"}
 JSON
 ```
 
 Optional override for custom config location:
 ```bash
-export VOICETOTEXT_CONFIG_PATH="/absolute/path/to/config.json"
+export ONESCRIBE_CONFIG_PATH="/absolute/path/to/config.json"
 ```
 
 #### 3. Build and run
@@ -67,8 +67,8 @@ make build
 ### Accessibility (required for global hotkey + auto-paste)
 1. Open `System Settings`.
 2. Go to `Privacy & Security` -> `Accessibility`.
-3. Enable `VoiceToText`.
-4. If `VoiceToText` is not listed, click `+` and add the built app (`VoiceToText.app`), then enable it.
+3. Enable `OneScribe`.
+4. If `OneScribe` is not listed, click `+` and add the built app (`OneScribe.app`), then enable it.
 
 Shortcut command to open the Accessibility panel directly:
 ```bash
@@ -78,7 +78,7 @@ make access
 ### Microphone (required for recording)
 1. Open `System Settings`.
 2. Go to `Privacy & Security` -> `Microphone`.
-3. Enable `VoiceToText`.
+3. Enable `OneScribe`.
 
 ## Usage
 - Press `Option + Space` to start recording.
@@ -106,14 +106,14 @@ default, and the model downloads automatically on first run.
 
 Config, if you want it, uses XDG resolution:
 
-- Default config file: `~/.config/voicetotext/config.json`
-- Override: `VOICETOTEXT_CONFIG_PATH=/absolute/path/to/config.json`
+- Default config file: `~/.config/onescribe/config.json`
+- Override: `ONESCRIBE_CONFIG_PATH=/absolute/path/to/config.json`
 
 To use the Groq cloud backend instead of the local one:
 
 ```bash
-mkdir -p ~/.config/voicetotext
-cat > ~/.config/voicetotext/config.json <<'JSON'
+mkdir -p ~/.config/onescribe
+cat > ~/.config/onescribe/config.json <<'JSON'
 {"backend":"groq","groq_api_key":"your-groq-api-key"}
 JSON
 ```

@@ -723,6 +723,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d"
 
 [[package]]
+name = "onescribe-linux-core"
+version = "0.1.0"
+dependencies = [
+ "ashpd",
+ "chrono",
+ "futures-util",
+ "ksni",
+ "libc",
+ "reqwest",
+ "serde_json",
+ "tokio",
+ "transcribe-cpp",
+]
+
+[[package]]
 name = "ordered-stream"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1444,21 +1459,6 @@ dependencies = [
  "js-sys",
  "serde_core",
  "wasm-bindgen",
-]
-
-[[package]]
-name = "voicetotext-linux-core"
-version = "0.1.0"
-dependencies = [
- "ashpd",
- "chrono",
- "futures-util",
- "ksni",
- "libc",
- "reqwest",
- "serde_json",
- "tokio",
- "transcribe-cpp",
 ]
 
 [[package]]
