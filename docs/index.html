@@ -546,11 +546,10 @@
     <div class="mono" style="text-align: left; font-size: 15px;">
       <span class="cm"># 1. Install runtime deps</span><br>
       <span class="cm">#    pipewire ffmpeg wl-clipboard</span><br><br>
-      <span class="cm"># 2. Build (needs cmake + a C++ toolchain)</span><br>
-      cd linux && cargo build --release<br><br>
-      <span class="cm"># 3. Run the daemon — local transcription is the</span><br>
-      <span class="cm">#    default; the model auto-downloads on first run</span><br>
-      ./target/release/onescribe-linux-core daemon<br><br>
+      <span class="cm"># 2. Build and install (needs Nix; GPU via Vulkan by default)</span><br>
+      cd linux && ./install.sh<br><br>
+      <span class="cm"># 3. The model auto-downloads on first run (~697 MB)</span><br>
+      <span class="cm">#    and the daemon starts as a systemd user service</span><br><br>
       <span class="cm"># Press Alt+Space to record — offline</span>
     </div>
   </div>
