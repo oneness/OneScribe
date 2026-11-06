@@ -505,6 +505,13 @@ mod tests {
         }
     }
 
+    // Both tests below exercise the debug asset path: `bundled_asset_path` resolves
+    // through CARGO_MANIFEST_DIR in debug builds, but relative to the executable in
+    // release builds, where assets only exist in a packaged layout ($out/bin/assets).
+    // They are therefore compiled for debug test runs only; release-mode packaging is
+    // covered by installing the package and checking the daemon starts without a
+    // "missing icon asset" error.
+    #[cfg(debug_assertions)]
     #[test]
     fn install_linux_icon_assets_returns_icon_root() {
         let temp_home = unique_temp_dir();
@@ -525,6 +532,7 @@ mod tests {
         let _ = fs::remove_dir_all(&temp_home);
     }
 
+    #[cfg(debug_assertions)]
     #[test]
     fn install_linux_icon_assets_invalidates_stale_icon_theme_cache() {
         let temp_home = unique_temp_dir();

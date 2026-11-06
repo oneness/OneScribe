@@ -373,7 +373,7 @@
     <p class="big">On Linux, transcription runs <strong>fully on-device</strong> via <a href="https://github.com/handy-computer/transcribe.cpp">transcribe.cpp</a> (ggml) — and it's <strong>streaming</strong>: text is transcribed live while you speak, so the transcript is ready the instant you stop, no matter how long you talked.<br><br>The cloud backend — <strong>whisper-large-v3-turbo</strong> via Groq's API — remains a config switch away, and is what macOS uses.</p>
     <div class="mono" style="margin-top: 24px; font-size: 15px;">
       <span class="cm"># local (Linux default recommendation)</span><br>
-      model: nemotron-speech-streaming-en-0.6b-Q8_0.gguf<br>
+      model: parakeet-unified-en-0.6b-Q8_0.gguf<br>
       mic → 16 kHz PCM chunks → streaming decode → ~0.6 s stop-to-clipboard<br><br>
       <span class="cm"># cloud</span><br>
       POST api.groq.com/openai/v1/audio/transcriptions<br>
@@ -408,7 +408,7 @@
       <tr><th>Module</th><th>Role</th></tr>
       <tr><td><code>hotkey_daemon</code></td><td>Async event loop, XDG GlobalShortcuts portal</td></tr>
       <tr><td><code>recorder</code></td><td>pw-record → live PCM chunks (local) or ffmpeg Opus/OGG (cloud)</td></tr>
-      <tr><td><code>engine</code></td><td>Streaming transcribe.cpp inference (Nemotron GGUF) or Groq</td></tr>
+      <tr><td><code>engine</code></td><td>Streaming transcribe.cpp inference (local GGUF) or Groq</td></tr>
       <tr><td><code>groq</code></td><td>Pure request builder + response parser</td></tr>
       <tr><td><code>transport</code></td><td>reqwest blocking HTTP execution</td></tr>
       <tr><td><code>platform</code></td><td>Clipboard via wl-copy / xclip / xsel</td></tr>

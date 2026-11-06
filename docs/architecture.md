@@ -7,7 +7,7 @@ OneScribe is a global-hotkey dictation utility that runs as an invisible system 
 - **macOS** — Swift + AppKit, built with Xcode
 - **Linux** — Rust, targets PipeWire + GNOME Wayland
 
-Both implementations record, transcribe, copy the result to the clipboard, and append it to the journal. macOS then auto-pastes the result; Linux intentionally leaves it on the clipboard for manual pasting. macOS transcribes via the Groq cloud API; Linux transcribes locally on-device by default (transcribe.cpp + Nemotron), with Groq as a config-selectable alternative.
+Both implementations record, transcribe, copy the result to the clipboard, and append it to the journal. macOS then auto-pastes the result; Linux intentionally leaves it on the clipboard for manual pasting. macOS transcribes via the Groq cloud API; Linux transcribes locally on-device by default (transcribe.cpp + Parakeet), with Groq as a config-selectable alternative.
 
 ---
 
@@ -21,7 +21,8 @@ audio capture (AVAudioRecorder / pw-record)
     │
     ▼
 transcription
-  · Linux local:  transcribe.cpp (ggml) + Nemotron Speech Streaming English 0.6B GGUF,
+  · Linux local:  transcribe.cpp (ggml) + Parakeet Unified English 0.6B GGUF,
+                  GGUF via Vulkan (GPU) by default
                   offline, streamed live while recording
   · cloud:        Groq Whisper API (whisper-large-v3-turbo) — macOS, or Linux with backend=groq
     │
@@ -105,7 +106,7 @@ The crate at `linux/` is both a binary and a library (`lib.rs` re-exports everyt
 |--------|------|
 | `state.rs` | `enum AppState { Idle, Recording, Transcribing }` |
 | `config.rs` | Backend selection (`backend`: local/groq), model path, and API key resolution (env var → XDG config file); `resolve_config_path()` respects `XDG_CONFIG_HOME` and `ONESCRIBE_CONFIG_PATH` |
-| `engine.rs` | `TranscriptionEngine` enum — local on-device inference via `transcribe-cpp` (ggml) with a Nemotron GGUF, or the Groq cloud path |
+| `engine.rs` | `TranscriptionEngine` enum — local on-device inference via `transcribe-cpp` (ggml) with a Parakeet GGUF, or the Groq cloud path |
 | `groq.rs` | Pure request builder and response parser — no I/O; validates 25 MB upload cap |
 | `transport.rs` | `reqwest::blocking` HTTP execution; maps non-2xx to `TransportError` |
 | `recorder.rs` | `pw-record` capture: live raw-PCM chunks over a channel (local daemon streaming) or piped into `ffmpeg` → Opus/OGG at 16 kbps (Groq + CLI); SIGINT to stop; `list_audio_sources()` via `wpctl` |
@@ -134,7 +135,7 @@ Stop sends SIGINT to `pw-record` via `libc::kill`, then drains the sink.
 
 Selected at startup by `config.rs::resolve_backend()` into a `TranscriptionEngine` (`engine.rs`):
 
-- **local (offline)** — `transcribe-cpp` (ggml) loads a Nemotron Speech Streaming English 0.6B GGUF once at startup (~0.3 s). Daemon recordings are transcribed **live**: `StreamingPwRecorder` forwards raw PCM chunks (256 ms) over a channel to a worker thread that feeds the model's streaming session, so the final transcript is ready ~instantly at stop (measured ~0.6 s stop-to-clipboard including journaling). Models without streaming support fall back to a batch run over the accumulated audio automatically. CLI file/record modes use batch: audio (file or recorder OGG) is decoded to PCM via `ffmpeg`. Model auto-resolves to `~/.local/share/onescribe/models/nemotron-speech-streaming-en-0.6b-Q8_0.gguf` and is **auto-downloaded on first run** (streamed to a `.partial` file, resumable via HTTP Range, size-verified, renamed into place; custom `model_path` values are never auto-downloaded). Overrides: `model_path`/`language` config keys, `ONESCRIBE_MODEL_PATH`, `ONESCRIBE_LANGUAGE`.
+- **local (offline)** — `transcribe-cpp` (ggml) loads a Parakeet Unified English 0.6B GGUF once at startup (~0.3 s CPU, ~0.16 s with weights on the GPU). Builds use ggml's Vulkan backend by default and select the GPU automatically when one is present, falling back to CPU when not; that backend is also what makes the more accurate buffered-streaming `parakeet-unified-en-0.6b` fast enough for live dictation (see `linux/README.md`). Daemon recordings are transcribed **live**: `StreamingPwRecorder` forwards raw PCM chunks (256 ms) over a channel to a worker thread that feeds the model's streaming session, so the final transcript is ready ~instantly at stop (measured ~0.6 s stop-to-clipboard including journaling). Models without streaming support fall back to a batch run over the accumulated audio automatically. CLI file/record modes use batch: audio (file or recorder OGG) is decoded to PCM via `ffmpeg`. Model auto-resolves to `~/.local/share/onescribe/models/parakeet-unified-en-0.6b-Q8_0.gguf` and is **auto-downloaded on first run** (streamed to a `.partial` file, resumable via HTTP Range, size-verified, renamed into place; custom `model_path` values are never auto-downloaded). Overrides: `model_path`/`language` config keys, `ONESCRIBE_MODEL_PATH`, `ONESCRIBE_LANGUAGE`.
 - **groq (cloud)** — same API and model as macOS. `build_groq_transcription_request()` in `groq.rs` is pure (no I/O) and fully unit-tested. `execute_http_request()` in `transport.rs` uses `reqwest::blocking` inside `tokio::task::spawn_blocking`.
 
 ### Clipboard

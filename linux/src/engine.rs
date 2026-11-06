@@ -13,10 +13,28 @@ use transcribe_cpp::{Model, RunOptions, Session, StreamOptions};
 
 use crate::AudioCapture;
 
-/// Default local model: Nemotron Speech Streaming English 0.6B
-/// (cache-aware streaming + offline batch), Q8_0 quant.
-pub const DEFAULT_LOCAL_MODEL_FILE: &str = "nemotron-speech-streaming-en-0.6b-Q8_0.gguf";
-pub const DEFAULT_LOCAL_MODEL_URL: &str = "https://huggingface.co/handy-computer/nemotron-speech-streaming-en-0.6b-gguf/resolve/main/nemotron-speech-streaming-en-0.6b-Q8_0.gguf";
+/// Default local model: Parakeet Unified English 0.6B (one set of weights for
+/// both offline batch and buffered streaming), Q8_0 quant.
+///
+/// The most accurate English model transcribe.cpp ships that also streams:
+/// 1.60% vs 2.31% WER on LibriSpeech test-clean for the Nemotron streaming model
+/// it replaced (3.99% vs 6.43% on FLEURS-en; 1.26% vs 2.45% on a 60-utterance
+/// test-clean sample). It streams *buffered* — the encoder re-runs a sliding
+/// `[left|chunk|right]` window per chunk instead of reusing cache — so it costs
+/// ~6.5x the compute. Measured over 79.5 s of speech in 256 ms chunks:
+///
+/// | model            | CPU   | Vulkan (Radeon 890M) |
+/// | ---------------- | ----- | -------------------- |
+/// | parakeet-unified | 0.74x | 12.79x               |
+/// | nemotron-en      | 4.97x | 17.29x               |
+///
+/// `vulkan` is a default cargo feature and the backend is chosen at runtime, so
+/// GPU machines get 12.79x realtime. On a CPU-only machine — or a
+/// `--no-default-features` build — 0.74x is slower than realtime: live text lags
+/// and the 32-chunk capture channel blocks. Point `model_path` at
+/// `nemotron-speech-streaming-en-0.6b` there instead.
+pub const DEFAULT_LOCAL_MODEL_FILE: &str = "parakeet-unified-en-0.6b-Q8_0.gguf";
+pub const DEFAULT_LOCAL_MODEL_URL: &str = "https://huggingface.co/handy-computer/parakeet-unified-en-0.6b-gguf/resolve/main/parakeet-unified-en-0.6b-Q8_0.gguf";
 
 /// Which transcription implementation the app runs with. Chosen once at
 /// startup from config; everything downstream just calls `transcribe`.

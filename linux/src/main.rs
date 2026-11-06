@@ -142,7 +142,7 @@ fn download_default_model(dest: &Path) -> Result<(), Box<dyn std::error::Error>>
         .map(|meta| meta.len())
         .unwrap_or(0);
 
-    eprintln!("downloading model (~696 MB, one-time) to {}", dest.display());
+    eprintln!("downloading model (~697 MB, one-time) to {}", dest.display());
     let client = reqwest::blocking::Client::builder()
         // The default 30 s total timeout would abort a large download.
         .timeout(None)
