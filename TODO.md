@@ -1,0 +1,4 @@
+- [ ] **Turn it into Voice Agent** ?
+- [ ] **Mobile Apps iPhone/Android** ?
+- [ ] **Screen Shots** ?
+- [ ] **Release v1.0** ?
